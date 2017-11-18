@@ -1,6 +1,6 @@
 ﻿using MvvmCross.Core.ViewModels;
 using MvvmCross.Wpf.Platform;
-using MvvmCross.Wpf.Views.Presenters;
+using MvvmCross.Wpf.Views;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -12,15 +12,19 @@ namespace DOMTree.NET
 {
     public class Setup : MvxWpfSetup
     {
-        public Setup(Dispatcher uiThreadDispatcher, IMvxWpfViewPresenter presenter) : base(uiThreadDispatcher, presenter)
+        public Setup(Dispatcher uiThreadDispatcher, IMvxWpfViewPresenter presenter)
+            : base(uiThreadDispatcher, presenter)
         {
         }
 
         protected override IMvxApplication CreateApp()
         {
-           // var dbConn = FileAccessHelper.GetLocalFilePath("restaurant.db3");
-            //Mvx.RegisterSingleton(new Repository(dbConn));
             return new Core.App();
+        }
+
+        protected override void InitializeFirstChance()
+        {
+            base.InitializeFirstChance();
         }
     }
 }
