@@ -1,5 +1,7 @@
-﻿using MvvmCross.Core.ViewModels;
+﻿using DOMTree.NET.Core.ViewModels;
+using MvvmCross.Core.ViewModels;
 using MvvmCross.Platform;
+using MvvmCross.Platform.IoC;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -10,23 +12,24 @@ namespace DOMTree.NET.Core
 {
     public class App : MvxApplication
     {
-
-        /// <summary>
-        /// Setup IoC registrations.
-        /// </summary>
-        public App()
+        public override void Initialize()
         {
-            // Whenever Mvx.Resolve is used, a new instance of Calculation is provided.
-           // Mvx.RegisterType<IBillCalculator, BillCalculator>();
-          //  var calcExample = Mvx.Resolve<IBillCalculator>();
+            // Registers any classes ending with "Service" into the internal
+            // Mvx IoC container for use when constructing objects through
+            // the container
+            //CreatableTypes()
+            //    .EndingWith("Service")
+            //    .AsInterfaces()
+            //    .RegisterAsLazySingleton();
 
-            // Tells the MvvmCross framework that whenever any code requests an IMvxAppStart reference,
-            // the framework should return that same appStart instance.
-            var appStart = new CustomAppStart();
-            Mvx.RegisterSingleton<IMvxAppStart>(appStart);
+            // Construct custom application start object
+            Mvx.ConstructAndRegisterSingleton<IMvxAppStart, AppStart>();
 
-            // Another option is to utilize a default App Start object with 
-            // var appStart = new MvxAppStart<TipViewModel>();
+            // request a reference to the constructed appstart object 
+            var appStart = Mvx.Resolve<IMvxAppStart>();
+
+            // register the appstart object
+            RegisterAppStart(appStart);
         }
     }
 }
