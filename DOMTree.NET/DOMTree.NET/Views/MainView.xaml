@@ -4,6 +4,7 @@
                   xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
                   xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
                   xmlns:views="clr-namespace:MvvmCross.Wpf.Views;assembly=MvvmCross.Wpf"
+                  Loaded="MainView_Loaded"
                   mc:Ignorable="d"
                   d:DesignHeight="300"
                   d:DesignWidth="300">
@@ -11,6 +12,7 @@
         <Menu VerticalAlignment="Top" IsMainMenu="True" Height="20">
             <MenuItem Header="File">
                 <MenuItem Header="New..."/>
+                <MenuItem Header="Open..."/>
                 <MenuItem Header="Save"/>
                 <MenuItem Header="Save All"/>
             </MenuItem>
@@ -19,7 +21,8 @@
                 <MenuItem Header="Redo"/>
             </MenuItem>
             <MenuItem Header="More">
-                
+                <MenuItem Header="About the Project"/>
+                <MenuItem Header="Github"/>
             </MenuItem>
         </Menu>
         <Grid Margin="0,20,0,0" Background="Black" HorizontalAlignment="Stretch">
@@ -50,11 +53,11 @@
                     <ColumnDefinition/>
                     <ColumnDefinition/>
                 </Grid.ColumnDefinitions>
-                <Button Grid.Row="0" Grid.Column="0" Content=" DESIGN MODE "/>
-                <Button Grid.Row="0" Grid.Column="1" Content=" CODE MODE "/>
-                <Grid Grid.Row="1" Grid.ColumnSpan="2" Background="Red">
+                <Button Grid.Row="0" Grid.Column="0" Content=" DESIGN MODE " Command="{Binding ShowDesignCommand}"/>
+                <Button Grid.Row="0" Grid.Column="1" Content=" CODE MODE " Command="{Binding ShowCodeCommand}"/>
+                <Frame x:Name="PageContent" Grid.Row="1" Grid.ColumnSpan="2" Background="Red" NavigationUIVisibility="Hidden">
                     
-                </Grid>
+                </Frame>
             </Grid>
         </Grid>
     </Grid>
