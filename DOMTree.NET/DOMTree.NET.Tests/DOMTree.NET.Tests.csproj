@@ -73,6 +73,7 @@
     <Compile Include="Classes\MockDispatcher.cs" />
     <Compile Include="NavigationTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="ViewReportServiceTests.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
