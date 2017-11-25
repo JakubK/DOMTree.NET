@@ -1,4 +1,6 @@
-﻿using MvvmCross.Core.ViewModels;
+﻿using DOMTree.NET.Core.Interfaces;
+using DOMTree.NET.Core.Services;
+using MvvmCross.Core.ViewModels;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -10,8 +12,11 @@ namespace DOMTree.NET.Core.ViewModels
 {
     public class MainViewModel : MvxViewModel
     {
-        public MainViewModel()
+        private readonly IViewReportService<Type> viewReportService;
+
+        public MainViewModel(IViewReportService<Type> reportService)
         {
+            this.viewReportService = reportService;
         }
 
         public void LoadViewModel()
@@ -31,12 +36,23 @@ namespace DOMTree.NET.Core.ViewModels
 
         public void ShowDesign()
         {
-            ShowViewModel<DesignViewModel>();
+            if(!viewReportService.IsLoaded(typeof(DesignViewModel)))
+            {
+                ShowViewModel<DesignViewModel>();
+                viewReportService.AddView(typeof(DesignViewModel));
+            }
+            viewReportService.RemoveView(typeof(CodeViewModel));
         }
 
         public void ShowCode()
         {
-            ShowViewModel<CodeViewModel>();
+            if (!viewReportService.IsLoaded(typeof(CodeViewModel)))
+            {
+                ShowViewModel<CodeViewModel>();
+                viewReportService.AddView(typeof(CodeViewModel));
+            }
+            viewReportService.RemoveView(typeof(DesignViewModel));
+
         }
     }
 }
