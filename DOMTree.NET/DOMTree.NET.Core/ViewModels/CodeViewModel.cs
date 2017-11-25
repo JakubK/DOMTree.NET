@@ -13,5 +13,13 @@ namespace DOMTree.NET.Core.ViewModels
         {
 
         }
+
+        private string code;
+        public string Code
+        {
+            get { return code; }
+            set { code = value; }
+        }
+        
     }
 }

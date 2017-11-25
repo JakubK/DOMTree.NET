@@ -9,6 +9,14 @@
       Title="CodeView">
 
     <Grid Background="Black">
-
+        <RichTextBox AcceptsTab="True" Margin="10">
+            <RichTextBox.Document>
+                <FlowDocument>
+                    <Paragraph>
+                        <Run Text="{Binding Code}"/>
+                    </Paragraph>
+                </FlowDocument>
+            </RichTextBox.Document>
+        </RichTextBox>
     </Grid>
 </local:MvxWpfPage>
