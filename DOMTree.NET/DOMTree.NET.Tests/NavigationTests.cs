@@ -1,9 +1,13 @@
-﻿using DOMTree.NET.Core.ViewModels;
+﻿using DOMTree.NET.Core.Interfaces;
+using DOMTree.NET.Core.Services;
+using DOMTree.NET.Core.ViewModels;
 using DOMTree.NET.Tests.Classes;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Moq;
 using MvvmCross.Core.Platform;
+using MvvmCross.Core.ViewModels;
 using MvvmCross.Core.Views;
+using MvvmCross.Platform;
 using MvvmCross.Platform.Core;
 using MvvmCross.Test.Core;
 using System;
@@ -24,8 +28,10 @@ namespace DOMTree.NET.Tests
             MockDispatcher = new MockDispatcher();
             Ioc.RegisterSingleton<IMvxViewDispatcher>(MockDispatcher);
             Ioc.RegisterSingleton<IMvxMainThreadDispatcher>(MockDispatcher);
+
             // required only when passing parameters
             Ioc.RegisterSingleton<IMvxStringToTypeParser>(new MvxStringToTypeParser());
+            Ioc.RegisterSingleton<IViewReportService<Type>>(new ViewReportService());
         }
 
         [TestInitialize]
@@ -38,7 +44,9 @@ namespace DOMTree.NET.Tests
         public void TestIsSwitchingToCodeView()
         {
             // Arrange
-            var viewModel = new MainViewModel();
+            var reportService = Mvx.Resolve<IViewReportService<Type>>();
+
+            var viewModel = new MainViewModel(reportService);
             // Act
             viewModel.ShowCodeCommand.Execute(null);
             // Assert
@@ -51,7 +59,9 @@ namespace DOMTree.NET.Tests
         public void TestIsSwitchingToDesignView()
         {
             // Arrange
-            var viewModel = new MainViewModel();
+            var reportService = Mvx.Resolve<IViewReportService<Type>>();
+
+            var viewModel = new MainViewModel(reportService);
             // Act
             viewModel.ShowDesignCommand.Execute(null);
             // Assert
