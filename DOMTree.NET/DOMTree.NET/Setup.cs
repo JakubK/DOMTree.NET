@@ -1,4 +1,7 @@
-﻿using MvvmCross.Core.ViewModels;
+﻿using DOMTree.NET.Core.Interfaces;
+using DOMTree.NET.Core.Services;
+using MvvmCross.Core.ViewModels;
+using MvvmCross.Platform;
 using MvvmCross.Wpf.Platform;
 using MvvmCross.Wpf.Views;
 using System;

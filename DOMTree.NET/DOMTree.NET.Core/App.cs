@@ -17,10 +17,10 @@ namespace DOMTree.NET.Core
             // Registers any classes ending with "Service" into the internal
             // Mvx IoC container for use when constructing objects through
             // the container
-            //CreatableTypes()
-            //    .EndingWith("Service")
-            //    .AsInterfaces()
-            //    .RegisterAsLazySingleton();
+            CreatableTypes()
+                .EndingWith("Service")
+                .AsInterfaces()
+                .RegisterAsLazySingleton();
 
             // Construct custom application start object
             Mvx.ConstructAndRegisterSingleton<IMvxAppStart, AppStart>();
