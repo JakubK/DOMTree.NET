@@ -1,5 +1,6 @@
 ﻿using DOMTree.NET.Core.Interfaces;
 using DOMTree.NET.Core.Services;
+using DOMTree.NET.Services;
 using MvvmCross.Core.ViewModels;
 using MvvmCross.Platform;
 using MvvmCross.Wpf.Platform;
@@ -28,6 +29,9 @@ namespace DOMTree.NET
         protected override void InitializeFirstChance()
         {
             base.InitializeFirstChance();
+
+            Mvx.RegisterSingleton<IDocumentService>(() => new DocumentService());
+
         }
     }
 }

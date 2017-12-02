@@ -5,6 +5,7 @@
                   xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
                   xmlns:views="clr-namespace:MvvmCross.Wpf.Views;assembly=MvvmCross.Wpf"
                   Loaded="MainView_Loaded"
+                  x:Name="mainView"
                   mc:Ignorable="d"
                   d:DesignHeight="300"
                   d:DesignWidth="300">
@@ -12,7 +13,7 @@
         <Menu VerticalAlignment="Top" IsMainMenu="True" Height="20">
             <MenuItem Header="File">
                 <MenuItem Header="New..."/>
-                <MenuItem Header="Open..."/>
+                <MenuItem Header="Open..." Command="{Binding OpenFileCommand}"/>
                 <MenuItem Header="Save"/>
                 <MenuItem Header="Save All"/>
             </MenuItem>
@@ -31,18 +32,25 @@
                 <ColumnDefinition Width="*"/>
             </Grid.ColumnDefinitions>
             <ScrollViewer VerticalScrollBarVisibility="Auto">
-                <StackPanel Orientation="Vertical" Background="Blue" Grid.Column="0" VerticalAlignment="Stretch" HorizontalAlignment="Stretch">
-                    <StackPanel.Resources>
-                        <Style TargetType="Button">
-                            <Setter Property="Margin" Value="10"/>
-                            <Setter Property="Height" Value="50"/>
-                        </Style>
-                    </StackPanel.Resources>
-                    <Button Content="Document1"/>
-                    <Button Content="Document2"/>
-                    <Button Content="Document3"/>
-                    <Button Content="Document4"/>
-                </StackPanel>
+                <ItemsControl ItemsSource="{Binding ListItems}"  Grid.Column="0" VerticalAlignment="Stretch" HorizontalAlignment="Stretch">
+                    <ItemsControl.ItemsPanel>
+                        <ItemsPanelTemplate>
+                            <StackPanel Orientation="Vertical" Background="Blue">
+                                <StackPanel.Resources>
+                                    <Style TargetType="Button">
+                                        <Setter Property="Margin" Value="10"/>
+                                        <Setter Property="Height" Value="50"/>
+                                    </Style>
+                                </StackPanel.Resources>
+                            </StackPanel>
+                        </ItemsPanelTemplate>
+                    </ItemsControl.ItemsPanel>
+                    <ItemsControl.ItemTemplate>
+                        <DataTemplate>
+                            <Button Content="{Binding FileName}" Command="{Binding ElementName=mainView,Path=DataContext.ShowContentCommand}" CommandParameter="{Binding}" />
+                        </DataTemplate>
+                    </ItemsControl.ItemTemplate>
+                </ItemsControl>
             </ScrollViewer>
             <Grid Grid.Column="1" Background="Gray">
                 <Grid.RowDefinitions>
