@@ -31,7 +31,7 @@ namespace DOMTree.NET.Tests
 
             // required only when passing parameters
             Ioc.RegisterSingleton<IMvxStringToTypeParser>(new MvxStringToTypeParser());
-            Ioc.RegisterSingleton<IViewReportService<Type>>(new ViewReportService());
+
         }
 
         [TestInitialize]
@@ -44,9 +44,7 @@ namespace DOMTree.NET.Tests
         public void TestIsSwitchingToCodeView()
         {
             // Arrange
-            var reportService = Mvx.Resolve<IViewReportService<Type>>();
-
-            var viewModel = new MainViewModel(reportService);
+            var viewModel = new MainViewModel();
             // Act
             viewModel.ShowCodeCommand.Execute(null);
             // Assert
@@ -61,7 +59,7 @@ namespace DOMTree.NET.Tests
             // Arrange
             var reportService = Mvx.Resolve<IViewReportService<Type>>();
 
-            var viewModel = new MainViewModel(reportService);
+            var viewModel = new MainViewModel();
             // Act
             viewModel.ShowDesignCommand.Execute(null);
             // Assert
