@@ -16,11 +16,11 @@ namespace DOMTree.NET.Core.ViewModels
     {
         #region Fields
         private readonly IViewReportService<Type> viewReportService;
-        private readonly IDocumentService documentService;
+        private IDocumentService documentService;
 
-        public ObservableCollection<CodeData> ListItems { get; set; }
+        public ObservableCollection<Document> ListItems { get; set; }
 
-        public CodeData DocumentData { get; set; }
+        public int CurrentDocumentID { get; set; }
 
         #endregion
         #region Constructors
@@ -36,8 +36,8 @@ namespace DOMTree.NET.Core.ViewModels
 
         public MainViewModel()
         {
-            ListItems = new ObservableCollection<CodeData>();
-            DocumentData = new CodeData();
+            ListItems = new ObservableCollection<Document>();
+            CurrentDocumentID = -1;
         }
         #endregion
         #region Commands
@@ -46,10 +46,10 @@ namespace DOMTree.NET.Core.ViewModels
             get { return new MvxCommand(ShowDesign); }
         }
 
-        public ICommand ShowCodeCommand
-        {
-            get { return new MvxCommand(ShowCode); }
-        }
+        //public ICommand ShowCodeCommand
+        //{
+        //    get { return new MvxCommand(ShowCode); }
+        //}
 
         public ICommand OpenFileCommand
         {
@@ -58,43 +58,64 @@ namespace DOMTree.NET.Core.ViewModels
 
         public ICommand ShowContentCommand
         {
-            get { return new MvxCommand<CodeData>(ShowContent); }
+            get { return new MvxCommand<int>(ShowContent); }
+        }
+        public ICommand NewFileCommand
+        {
+            get { return new MvxCommand(NewFile); }
         }
         #endregion
         #region Methods
+
+        private void NewFile()
+        {
+            //CodeData data = new CodeData();
+            //data.Code = string.Empty;
+            //data.FileName = "UnnamedFile";
+            //data.Uri = data.FileName;
+
+            //ListItems.Add(data);
+            //ShowContentCommand.Execute(data);
+            throw new NotImplementedException();
+        }
+
         public void LoadViewModel()
         {
             ShowViewModel<CodeViewModel>();
             viewReportService.AddView(typeof(CodeViewModel));
         }
 
-        private void ShowContent(CodeData Data)
+        private void ShowContent(int ID)
         {
-            System.Diagnostics.Debug.WriteLine(Data.Uri);
-            DocumentData.Code = Data.Code;
+            if (CurrentDocumentID == ID)
+                return;
+
+            CurrentDocumentID = ID;
 
             ShowViewModel<CodeViewModel>(new Dictionary<string, string>()
             {
-                {"Code",DocumentData.Code }
+                {"DocId",ID.ToString() }
             });
         }
 
         public void OpenFile()
         {
-            CodeData data = documentService.Load(documentService.SelectUri());
+            Document data = documentService.Load(documentService.SelectUri());
 
-            if (data != null)
+            if (data == null)
+                return;
+
+            if (!ListItems.Any(x => x.Uri == data.Uri))
             {
-                if (!ListItems.Any(x => x.Uri == data.Uri))
-                {
-                    ListItems.Add(data);
-                }
-                else
-                {
-                    ListItems.First(x => x.Uri == data.Uri).Code = data.Code;
-                }
-                ShowContentCommand.Execute(data);
+                ListItems.Add(data);
             }
+            else
+            {
+                ListItems.First(x => x.Uri == data.Uri).Code = data.Code;
+            }
+
+            ShowContentCommand.Execute(data.ID);
+            
         }
 
         public void ShowDesign()
@@ -107,25 +128,25 @@ namespace DOMTree.NET.Core.ViewModels
             viewReportService.RemoveView(typeof(CodeViewModel));
         }
 
-        public void ShowCode()
-        {
-            if (!viewReportService.IsLoaded(typeof(CodeViewModel)))
-            {
-                if (DocumentData.Code != null)
-                {
-                    ShowViewModel<CodeViewModel>(new Dictionary<string, string>()
-                    {
-                        {"Code",DocumentData.Code }
-                    });
-                }
-                else
-                {
-                    ShowViewModel<CodeViewModel>();
-                }
-                viewReportService.AddView(typeof(CodeViewModel));
-            }
-            viewReportService.RemoveView(typeof(DesignViewModel));
-        }
+        //public void ShowCode()
+        //{
+        //    if (!viewReportService.IsLoaded(typeof(CodeViewModel)))
+        //    {
+        //        if (DocumentData.Code != null)
+        //        {
+        //            ShowViewModel<CodeViewModel>(new Dictionary<string, string>()
+        //            {
+        //                {"Code",DocumentData.Code }
+        //            });
+        //        }
+        //        else
+        //        {
+        //            ShowViewModel<CodeViewModel>();
+        //        }
+        //        viewReportService.AddView(typeof(CodeViewModel));
+        //    }
+        //    viewReportService.RemoveView(typeof(DesignViewModel));
+        //}
         #endregion
     }
 }
