@@ -60,7 +60,7 @@
     <Compile Include="AppStart.cs" />
     <Compile Include="Interfaces\IDocumentService.cs" />
     <Compile Include="Interfaces\IViewReportService.cs" />
-    <Compile Include="Models\CodeData.cs" />
+    <Compile Include="Models\Document.cs" />
     <Compile Include="Services\ViewReportService.cs" />
     <Compile Include="ViewModels\CodeViewModel.cs" />
     <Compile Include="ViewModels\DesignViewModel.cs" />

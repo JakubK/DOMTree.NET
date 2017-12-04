@@ -22,8 +22,6 @@ namespace DOMTree.NET
 
         public override void ChangePresentation(MvxPresentationHint hint)
         {
-           
-
             base.ChangePresentation(hint);
         }
     }
