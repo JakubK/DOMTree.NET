@@ -10,8 +10,8 @@ namespace DOMTree.NET.Core.Interfaces
 {
     public interface IDocumentService
     {
-        ObservableCollection<CodeData> Uris { get; set; }
-        CodeData Load(string uri);
+        ObservableCollection<Document> Documents { get; set; }
+        Document Load(string uri);
         string SelectUri();
     }
 }

@@ -11,17 +11,25 @@ using System.Threading.Tasks;
 
 namespace DOMTree.NET.Services
 {
+    /// <summary>
+    /// Is responsible for Loading text from file and storing it in a collection
+    /// It can also expose some Document's Code if necessary
+    /// </summary>
     public class DocumentService : IDocumentService
     {
-        public ObservableCollection<CodeData> Uris { get; set; }
+        public ObservableCollection<Document> Documents { get; set; }
 
         OpenFileDialog openFileDialog;
 
         public DocumentService()
         {
-            Uris = new ObservableCollection<CodeData>();
+            Documents = new ObservableCollection<Document>();
         }
 
+        /// <summary>
+        /// Returns the Uri Path from OpenFileDialog
+        /// </summary>
+        /// <returns></returns>
         public string SelectUri()
         {
             openFileDialog = new OpenFileDialog();
@@ -33,13 +41,21 @@ namespace DOMTree.NET.Services
                 return null;
         }
 
-        public CodeData Load(string uri)
+        /// <summary>
+        /// Takes the Uri Path to the Input
+        /// and returns CodeData from It
+        /// </summary>
+        /// <param name="uri"></param>
+        /// <returns></returns>
+        public Document Load(string uri)
         {
             if(string.IsNullOrEmpty(uri))
-            {
                 return null;
-            }
-            CodeData result = new CodeData();
+            
+            if(Documents.Any(x => x.Uri == uri))
+                return null;
+            
+            Document result = new Document();
             result.Uri = uri;
             result.FileName = Path.GetFileName(result.Uri);
 
@@ -53,7 +69,8 @@ namespace DOMTree.NET.Services
             }
             finally
             {
-                Uris.Add(result);
+                result.ID = Documents.Count;
+                Documents.Add(result);
             }
 
             return result;
