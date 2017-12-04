@@ -12,6 +12,8 @@ namespace DOMTree.NET.Core.Interfaces
     {
         ObservableCollection<Document> Documents { get; set; }
         Document Load(string uri);
+        Document CreateNew();
+        bool Save(string uri, Document doc);
         string SelectUri();
     }
 }

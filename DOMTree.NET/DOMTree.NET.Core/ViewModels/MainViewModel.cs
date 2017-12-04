@@ -46,10 +46,10 @@ namespace DOMTree.NET.Core.ViewModels
             get { return new MvxCommand(ShowDesign); }
         }
 
-        //public ICommand ShowCodeCommand
-        //{
-        //    get { return new MvxCommand(ShowCode); }
-        //}
+        public ICommand ShowCodeCommand
+        {
+            get { return new MvxCommand(ShowCode); }
+        }
 
         public ICommand OpenFileCommand
         {
@@ -69,14 +69,9 @@ namespace DOMTree.NET.Core.ViewModels
 
         private void NewFile()
         {
-            //CodeData data = new CodeData();
-            //data.Code = string.Empty;
-            //data.FileName = "UnnamedFile";
-            //data.Uri = data.FileName;
-
-            //ListItems.Add(data);
-            //ShowContentCommand.Execute(data);
-            throw new NotImplementedException();
+            ListItems.Add(documentService.CreateNew());
+            ShowContentCommand.Execute(ListItems[ListItems.Count-1].ID);
+            //throw new NotImplementedException();
         }
 
         public void LoadViewModel()
@@ -128,25 +123,25 @@ namespace DOMTree.NET.Core.ViewModels
             viewReportService.RemoveView(typeof(CodeViewModel));
         }
 
-        //public void ShowCode()
-        //{
-        //    if (!viewReportService.IsLoaded(typeof(CodeViewModel)))
-        //    {
-        //        if (DocumentData.Code != null)
-        //        {
-        //            ShowViewModel<CodeViewModel>(new Dictionary<string, string>()
-        //            {
-        //                {"Code",DocumentData.Code }
-        //            });
-        //        }
-        //        else
-        //        {
-        //            ShowViewModel<CodeViewModel>();
-        //        }
-        //        viewReportService.AddView(typeof(CodeViewModel));
-        //    }
-        //    viewReportService.RemoveView(typeof(DesignViewModel));
-        //}
+        public void ShowCode()
+        {
+            //if (!viewReportService.IsLoaded(typeof(CodeViewModel)))
+            //{
+            //    if (DocumentData.Code != null)
+            //    {
+            //        ShowViewModel<CodeViewModel>(new Dictionary<string, string>()
+            //        {
+            //            {"Code",DocumentData.Code }
+            //        });
+            //    }
+            //    else
+            //    {
+            //        ShowViewModel<CodeViewModel>();
+            //    }
+            //    viewReportService.AddView(typeof(CodeViewModel));
+            //}
+            //viewReportService.RemoveView(typeof(DesignViewModel));
+        }
         #endregion
     }
 }

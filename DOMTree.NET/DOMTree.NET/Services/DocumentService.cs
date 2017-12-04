@@ -75,5 +75,23 @@ namespace DOMTree.NET.Services
 
             return result;
         }
+
+        public bool Save(string uri, Document doc)
+        {
+            throw new NotImplementedException();
+        }
+
+        public Document CreateNew()
+        {
+            Document Doc = new Document();
+            Doc.ID = Documents.Count;
+            Doc.FileName = "New Document " + Doc.ID;
+            Doc.Uri = Doc.FileName;
+            Doc.Code = string.Empty;
+
+            Documents.Add(Doc);
+
+            return Doc;
+        }
     }
 }
