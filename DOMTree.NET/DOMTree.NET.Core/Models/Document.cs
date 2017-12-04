@@ -6,13 +6,15 @@ using System.Threading.Tasks;
 
 namespace DOMTree.NET.Core.Models
 {
-    public class CodeData
+    public class Document
     {
         public string Uri { get; set; }
         public string Code { get; set; }
         public string FileName { get; set; }
 
-        public CodeData()
+        public int ID { get; set; }
+
+        public Document()
         {
 
         }
