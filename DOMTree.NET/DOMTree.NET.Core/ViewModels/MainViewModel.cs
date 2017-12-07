@@ -65,13 +65,12 @@ namespace DOMTree.NET.Core.ViewModels
         {
             ListItems.Add(documentService.CreateNew());
             ShowContentCommand.Execute(ListItems[ListItems.Count-1].ID);
-            //throw new NotImplementedException();
         }
 
         public void LoadViewModel()
         {
             ShowViewModel<CodeViewModel>();
-            viewReportService.AddView(typeof(CodeViewModel));
+            NewFile();
         }
 
         private void ShowContent(int ID)
