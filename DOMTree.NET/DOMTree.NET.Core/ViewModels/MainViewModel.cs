@@ -1,6 +1,5 @@
 ﻿using DOMTree.NET.Core.Interfaces;
 using DOMTree.NET.Core.Models;
-using DOMTree.NET.Core.Services;
 using MvvmCross.Core.ViewModels;
 using System;
 using System.Collections.Generic;
@@ -15,7 +14,6 @@ namespace DOMTree.NET.Core.ViewModels
     public class MainViewModel : MvxViewModel
     {
         #region Fields
-        private readonly IViewReportService<Type> viewReportService;
         private IDocumentService documentService;
 
         public ObservableCollection<Document> ListItems { get; set; }
@@ -24,15 +22,11 @@ namespace DOMTree.NET.Core.ViewModels
 
         #endregion
         #region Constructors
-        public MainViewModel(IViewReportService<Type> _reportService,IDocumentService _documentService) : this(_reportService)
+        public MainViewModel(IDocumentService _documentService) : this()
         {
             this.documentService = _documentService;
         }
 
-        public MainViewModel(IViewReportService<Type> _reportService) : this()
-        {
-            this.viewReportService = _reportService;
-        }
 
         public MainViewModel()
         {
@@ -115,32 +109,15 @@ namespace DOMTree.NET.Core.ViewModels
 
         public void ShowDesign()
         {
-            if(!viewReportService.IsLoaded(typeof(DesignViewModel)))
-            {
-                ShowViewModel<DesignViewModel>();
-                viewReportService.AddView(typeof(DesignViewModel));
-            }
-            viewReportService.RemoveView(typeof(CodeViewModel));
+            ShowViewModel<DesignViewModel>();
         }
 
         public void ShowCode()
         {
-            //if (!viewReportService.IsLoaded(typeof(CodeViewModel)))
-            //{
-            //    if (DocumentData.Code != null)
-            //    {
-            //        ShowViewModel<CodeViewModel>(new Dictionary<string, string>()
-            //        {
-            //            {"Code",DocumentData.Code }
-            //        });
-            //    }
-            //    else
-            //    {
-            //        ShowViewModel<CodeViewModel>();
-            //    }
-            //    viewReportService.AddView(typeof(CodeViewModel));
-            //}
-            //viewReportService.RemoveView(typeof(DesignViewModel));
+            ShowViewModel<CodeViewModel>(new Dictionary<string, string>()
+            {
+                {"DocId",CurrentDocumentID.ToString() }
+            });
         }
         #endregion
     }

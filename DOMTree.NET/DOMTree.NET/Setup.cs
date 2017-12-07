@@ -1,5 +1,4 @@
 ﻿using DOMTree.NET.Core.Interfaces;
-using DOMTree.NET.Core.Services;
 using DOMTree.NET.Services;
 using MvvmCross.Core.ViewModels;
 using MvvmCross.Platform;
