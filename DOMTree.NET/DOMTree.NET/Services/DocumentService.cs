@@ -20,6 +20,7 @@ namespace DOMTree.NET.Services
         public ObservableCollection<Document> Documents { get; set; }
 
         OpenFileDialog openFileDialog;
+        SaveFileDialog saveFileDialog;
 
         public DocumentService()
         {
@@ -76,9 +77,30 @@ namespace DOMTree.NET.Services
             return result;
         }
 
-        public bool Save(string uri, Document doc)
+        public bool SaveFile(string uri, Document doc, bool overwrite = true)
         {
-            throw new NotImplementedException();
+            if (!File.Exists(uri) && overwrite)
+                return false;
+
+            File.WriteAllText(uri, doc.Code);
+            System.Diagnostics.Debug.WriteLine(doc.Code);
+            return true;
+        }
+
+        public bool SaveFileAs(Document doc)
+        {
+            saveFileDialog = new SaveFileDialog();
+            saveFileDialog.Title = "Select path for this file";
+            saveFileDialog.DefaultExt = "html";
+            saveFileDialog.CheckFileExists = false;
+            saveFileDialog.CheckPathExists = true;
+            saveFileDialog.OverwritePrompt = true;
+            saveFileDialog.Filter = "txt files (*.txt)|*.txt|HTML documents (*.html)|*.html|XML Documents (*.xml)|(*.xml)";
+            if(saveFileDialog.ShowDialog() == true)
+            {
+                SaveFile(saveFileDialog.FileName, doc,false);
+            }
+            return true;
         }
 
         public Document CreateNew()
