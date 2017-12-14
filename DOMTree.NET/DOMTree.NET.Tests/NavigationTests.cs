@@ -57,8 +57,6 @@ namespace DOMTree.NET.Tests
         public void TestIsSwitchingToDesignView()
         {
             // Arrange
-            var reportService = Mvx.Resolve<IViewReportService<Type>>();
-
             var viewModel = new MainViewModel();
             // Act
             viewModel.ShowDesignCommand.Execute(null);
