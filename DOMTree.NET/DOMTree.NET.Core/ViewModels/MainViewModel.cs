@@ -27,7 +27,6 @@ namespace DOMTree.NET.Core.ViewModels
             this.documentService = _documentService;
         }
 
-
         public MainViewModel()
         {
             ListItems = new ObservableCollection<Document>();
@@ -103,7 +102,6 @@ namespace DOMTree.NET.Core.ViewModels
             }
 
             ShowContentCommand.Execute(data.ID);
-            
         }
 
         public void ShowDesign()

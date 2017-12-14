@@ -24,7 +24,6 @@ namespace DOMTree.NET.Core.ViewModels
 
         protected override void InitFromBundle(IMvxBundle parameters)
         {
-
             if (parameters.Data.ContainsKey("DocId")) //Change the current document's ID only if it has changed
             {
                 if (ID != int.Parse(parameters.Data["DocId"]))

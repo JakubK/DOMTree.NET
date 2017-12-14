@@ -28,9 +28,7 @@ namespace DOMTree.NET
         protected override void InitializeFirstChance()
         {
             base.InitializeFirstChance();
-
             Mvx.RegisterSingleton<IDocumentService>(() => new DocumentService());
-
         }
     }
 }
