@@ -57,8 +57,26 @@ namespace DOMTree.NET.Core.ViewModels
         {
             get { return new MvxCommand(NewFile); }
         }
+        public ICommand SaveFileCommand
+        {
+            get { return new MvxCommand(SaveFile); }
+        }
+        public ICommand SaveFileAsCommand
+        {
+            get { return new MvxCommand(SaveFileAs); }
+        }
+
         #endregion
         #region Methods
+        private void SaveFile()
+        {
+            documentService.SaveFile(documentService.Documents.First(x => x.ID == CurrentDocumentID).Uri, documentService.Documents.First(x => x.ID == CurrentDocumentID));
+        }
+
+        private void SaveFileAs()
+        {
+            documentService.SaveFileAs(documentService.Documents.First(x => x.ID == CurrentDocumentID));
+        }
 
         private void NewFile()
         {
