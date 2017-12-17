@@ -37,7 +37,6 @@ namespace DOMTree.NET.Services
             openFileDialog.Filter = "txt files (*.txt)|*.txt|HTML documents (*.html)|*.html|XML Documents (*.xml)|(*.xml)";
             if (openFileDialog.ShowDialog() == true)
                 return openFileDialog.InitialDirectory + openFileDialog.FileName;
-
             else
                 return null;
         }
@@ -77,13 +76,20 @@ namespace DOMTree.NET.Services
             return result;
         }
 
+        public bool UnLoad(Document doc)
+        {
+            Documents.Remove(doc);
+            return true;
+        }
+
         public bool SaveFile(string uri, Document doc, bool overwrite = true)
         {
             if (!File.Exists(uri) && overwrite)
-                return false;
+            {
+                return SaveFileAs(doc);
+            }
 
             File.WriteAllText(uri, doc.Code);
-            System.Diagnostics.Debug.WriteLine(doc.Code);
             return true;
         }
 
@@ -96,9 +102,22 @@ namespace DOMTree.NET.Services
             saveFileDialog.CheckPathExists = true;
             saveFileDialog.OverwritePrompt = true;
             saveFileDialog.Filter = "txt files (*.txt)|*.txt|HTML documents (*.html)|*.html|XML Documents (*.xml)|(*.xml)";
-            if(saveFileDialog.ShowDialog() == true)
+
+            if (saveFileDialog.ShowDialog() == true)
             {
+                Documents.First(x => x.ID == doc.ID).FileName = Path.GetFileName(saveFileDialog.FileName);
+                Documents.First(x => x.ID == doc.ID).Uri = saveFileDialog.FileName;
                 SaveFile(saveFileDialog.FileName, doc,false);
+            }
+
+            return true;
+        }
+
+        public bool SaveAll()
+        {
+            for(int i = 0;i < Documents.Count;i++)
+            {
+                SaveFile(Documents[i].Uri, Documents[i]);
             }
             return true;
         }

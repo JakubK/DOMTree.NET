@@ -12,9 +12,11 @@ namespace DOMTree.NET.Core.Interfaces
     {
         ObservableCollection<Document> Documents { get; set; }
         Document Load(string uri);
+        bool UnLoad(Document doc);
         Document CreateNew();
         bool SaveFile(string uri, Document doc, bool overwrite = true);
         bool SaveFileAs(Document doc);
+        bool SaveAll();
         string SelectUri();
     }
 }
