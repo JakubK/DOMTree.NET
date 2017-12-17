@@ -16,6 +16,7 @@
                 <MenuItem Header="Open..." Command="{Binding OpenFileCommand}"/>
                 <MenuItem Header="Save" Command="{Binding SaveFileCommand}"/>
                 <MenuItem Header="Save As..." Command="{Binding SaveFileAsCommand}"/>
+                <MenuItem Header="Save All" Command="{Binding SaveAllCommand}"/>
             </MenuItem>
             <MenuItem Header="Edit">
                 <MenuItem Header="Undo"/>
@@ -32,7 +33,7 @@
                 <ColumnDefinition Width="*"/>
             </Grid.ColumnDefinitions>
             <ScrollViewer VerticalScrollBarVisibility="Auto">
-                <ItemsControl ItemsSource="{Binding ListItems}"  Grid.Column="0" VerticalAlignment="Stretch" HorizontalAlignment="Stretch">
+                <ItemsControl ItemsSource="{Binding documentService.Documents}"  Grid.Column="0" VerticalAlignment="Stretch" HorizontalAlignment="Stretch">
                     <ItemsControl.ItemsPanel>
                         <ItemsPanelTemplate>
                             <StackPanel Orientation="Vertical" Background="Blue">

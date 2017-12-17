@@ -14,9 +14,19 @@ namespace DOMTree.NET.Core.ViewModels
     public class MainViewModel : MvxViewModel
     {
         #region Fields
-        private IDocumentService documentService;
 
-        public ObservableCollection<Document> ListItems { get; set; }
+        private IDocumentService _documentService;
+        public IDocumentService documentService
+        {
+            get { return _documentService; }
+            set
+            {
+                _documentService = value;
+                RaisePropertyChanged(() => documentService);
+            }
+        }
+
+        //public ObservableCollection<Document> ListItems { get; set; }
 
         public int CurrentDocumentID { get; set; }
 
@@ -29,7 +39,7 @@ namespace DOMTree.NET.Core.ViewModels
 
         public MainViewModel()
         {
-            ListItems = new ObservableCollection<Document>();
+            //ListItems = new ObservableCollection<Document>();
             CurrentDocumentID = -1;
         }
         #endregion
@@ -65,6 +75,10 @@ namespace DOMTree.NET.Core.ViewModels
         {
             get { return new MvxCommand(SaveFileAs); }
         }
+        public ICommand SaveAllCommand
+        {
+            get { return new MvxCommand(SaveAll); }
+        }
 
         #endregion
         #region Methods
@@ -75,13 +89,22 @@ namespace DOMTree.NET.Core.ViewModels
 
         private void SaveFileAs()
         {
-            documentService.SaveFileAs(documentService.Documents.First(x => x.ID == CurrentDocumentID));
+            Document doc = documentService.Documents.First(x => x.ID == CurrentDocumentID);
+
+            documentService.SaveFileAs(doc);   
+            documentService.UnLoad(doc);
+            documentService.Load(doc.Uri);
+        }
+
+        private void SaveAll()
+        {
+            documentService.SaveAll();
         }
 
         private void NewFile()
         {
-            ListItems.Add(documentService.CreateNew());
-            ShowContentCommand.Execute(ListItems[ListItems.Count-1].ID);
+            documentService.CreateNew();
+            ShowContentCommand.Execute(documentService.Documents[documentService.Documents.Count - 1].ID);
         }
 
         public void LoadViewModel()
@@ -109,15 +132,6 @@ namespace DOMTree.NET.Core.ViewModels
 
             if (data == null)
                 return;
-
-            if (!ListItems.Any(x => x.Uri == data.Uri))
-            {
-                ListItems.Add(data);
-            }
-            else
-            {
-                ListItems.First(x => x.Uri == data.Uri).Code = data.Code;
-            }
 
             ShowContentCommand.Execute(data.ID);
         }

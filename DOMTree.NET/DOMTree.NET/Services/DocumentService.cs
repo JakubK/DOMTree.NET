@@ -1,9 +1,11 @@
 ﻿using DOMTree.NET.Core.Interfaces;
 using DOMTree.NET.Core.Models;
 using Microsoft.Win32;
+using MvvmCross.Core.ViewModels;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.ComponentModel;
 using System.IO;
 using System.Linq;
 using System.Text;
@@ -15,9 +17,18 @@ namespace DOMTree.NET.Services
     /// Is responsible for Loading text from file and storing it in a collection
     /// It can also expose some Document's Code if necessary
     /// </summary>
-    public class DocumentService : IDocumentService
+    public class DocumentService : MvxNotifyPropertyChanged,IDocumentService
     {
-        public ObservableCollection<Document> Documents { get; set; }
+        ObservableCollection<Document> documents;
+        public ObservableCollection<Document> Documents
+        {
+            get { return documents; }
+            set
+            {
+                documents = value;
+                RaisePropertyChanged(() => Documents);
+            }
+        }
 
         OpenFileDialog openFileDialog;
         SaveFileDialog saveFileDialog;
