@@ -25,23 +25,23 @@ namespace DOMTree.NET
 
         public override void Show(MvxViewModelRequest request)
         {
-            var viewType = GetViewType(request);
+                var viewType = GetViewType(request);
 
-            if (viewType.HasRegionAttribute())
-            {
-                var loader = Mvx.Resolve<IMvxSimpleWpfViewLoader>();
-                var view = loader.CreateView(request);
-
-                var containerView = FindChild<Frame>(_contentControl, viewType.GetRegionName());
-
-                if (containerView != null)
+                if (viewType.HasRegionAttribute())
                 {
-                    containerView.Navigate(view);
-                    return;
-                }
-            }
+                    var loader = Mvx.Resolve<IMvxSimpleWpfViewLoader>();
+                    var view = loader.CreateView(request);
 
-            base.Show(request);
+                    var containerView = FindChild<Frame>(_contentControl, viewType.GetRegionName());
+
+                    if (containerView != null)
+                    {
+                        containerView.Navigate(view);
+                        return;
+                    }
+                }
+
+                base.Show(request);
         }
 
         private static Type GetViewType(MvxViewModelRequest request)
