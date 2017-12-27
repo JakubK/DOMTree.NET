@@ -26,8 +26,6 @@ namespace DOMTree.NET.Core.ViewModels
             }
         }
 
-        //public ObservableCollection<Document> ListItems { get; set; }
-
         public int CurrentDocumentID { get; set; }
 
         #endregion
@@ -39,7 +37,6 @@ namespace DOMTree.NET.Core.ViewModels
 
         public MainViewModel()
         {
-            //ListItems = new ObservableCollection<Document>();
             CurrentDocumentID = -1;
         }
         #endregion
@@ -90,10 +87,7 @@ namespace DOMTree.NET.Core.ViewModels
         private void SaveFileAs()
         {
             Document doc = documentService.Documents.First(x => x.ID == CurrentDocumentID);
-
             documentService.SaveFileAs(doc);   
-            documentService.UnLoad(doc);
-            documentService.Load(doc.Uri);
         }
 
         private void SaveAll()
@@ -107,6 +101,9 @@ namespace DOMTree.NET.Core.ViewModels
             ShowContentCommand.Execute(documentService.Documents[documentService.Documents.Count - 1].ID);
         }
 
+        /// <summary>
+        /// First method on Start-up
+        /// </summary>
         public void LoadViewModel()
         {
             ShowViewModel<CodeViewModel>();
@@ -128,17 +125,20 @@ namespace DOMTree.NET.Core.ViewModels
 
         public void OpenFile()
         {
-            Document data = documentService.Load(documentService.SelectUri());
+            Document doc = documentService.Load(documentService.SelectUri());
 
-            if (data == null)
+            if (doc == null)
                 return;
 
-            ShowContentCommand.Execute(data.ID);
+            ShowContentCommand.Execute(doc.ID);
         }
 
         public void ShowDesign()
         {
-            ShowViewModel<DesignViewModel>();
+            ShowViewModel<DOMViewModel>(new Dictionary<string, string>()
+            {
+                {"DocId",CurrentDocumentID.ToString() }
+            });
         }
 
         public void ShowCode()
