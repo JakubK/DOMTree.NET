@@ -26,17 +26,13 @@ namespace DOMTree.NET.Core.ViewModels
         {
             if (parameters.Data.ContainsKey("DocId")) //Change the current document's ID only if it has changed
             {
-                if (ID != int.Parse(parameters.Data["DocId"]))
-                    ID = int.Parse(parameters.Data["DocId"]);
-
-                DocumentData = DocumentService.Documents.First(x => x.ID == ID);
-                Code = DocumentData.Code;
+                ID = int.Parse(parameters.Data["DocId"]);
+                Code = DocumentService.Documents.First(x => x.ID == ID).Code;
             }
             base.InitFromBundle(parameters);
         }
 
         private int ID { get; set; }
-        Document DocumentData { get; set; }
 
         private string code;
         public string Code
