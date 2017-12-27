@@ -59,9 +59,16 @@
     <Compile Include="App.cs" />
     <Compile Include="AppStart.cs" />
     <Compile Include="Interfaces\IDocumentService.cs" />
+    <Compile Include="Interfaces\IDOMElement.cs" />
+    <Compile Include="Interfaces\IHtmlReaderService.cs" />
+    <Compile Include="Interfaces\INestable.cs" />
     <Compile Include="Models\Document.cs" />
+    <Compile Include="Models\DOM\NodeAttribute.cs" />
+    <Compile Include="Models\DOM\Node.cs" />
+    <Compile Include="Models\DOM\TextContent.cs" />
+    <Compile Include="Services\HtmlReaderService.cs" />
     <Compile Include="ViewModels\CodeViewModel.cs" />
-    <Compile Include="ViewModels\DesignViewModel.cs" />
+    <Compile Include="ViewModels\DOMViewModel.cs" />
     <Compile Include="ViewModels\MainViewModel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>

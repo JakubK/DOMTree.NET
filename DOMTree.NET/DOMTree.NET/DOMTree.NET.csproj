@@ -97,8 +97,8 @@
     <Compile Include="Views\Code\CodeView.xaml.cs">
       <DependentUpon>CodeView.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Views\Design\DesignView.xaml.cs">
-      <DependentUpon>DesignView.xaml</DependentUpon>
+    <Compile Include="Views\Design\DOMView.xaml.cs">
+      <DependentUpon>DOMView.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\MainView.xaml.cs">
       <DependentUpon>MainView.xaml</DependentUpon>
@@ -149,7 +149,7 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
-    <Page Include="Views\Design\DesignView.xaml">
+    <Page Include="Views\Design\DOMView.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>

@@ -71,6 +71,8 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Classes\MockDispatcher.cs" />
+    <Compile Include="DocumentServiceTests.cs" />
+    <Compile Include="HtmlReaderServiceTests.cs" />
     <Compile Include="NavigationTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
@@ -81,6 +83,10 @@
     <ProjectReference Include="..\DOMTree.NET.Core\DOMTree.NET.Core.csproj">
       <Project>{9460215b-c25f-4c08-b484-d0f381b53dd0}</Project>
       <Name>DOMTree.NET.Core</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\DOMTree.NET\DOMTree.NET.csproj">
+      <Project>{4f8563a8-c648-4647-8c3d-5aa319159be8}</Project>
+      <Name>DOMTree.NET</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(VSToolsPath)\TeamTest\Microsoft.TestTools.targets" Condition="Exists('$(VSToolsPath)\TeamTest\Microsoft.TestTools.targets')" />
