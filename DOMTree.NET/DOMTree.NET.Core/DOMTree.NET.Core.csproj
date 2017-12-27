@@ -59,7 +59,6 @@
     <Compile Include="App.cs" />
     <Compile Include="AppStart.cs" />
     <Compile Include="Interfaces\IDocumentService.cs" />
-    <Compile Include="Interfaces\IDOMElement.cs" />
     <Compile Include="Interfaces\IHtmlReaderService.cs" />
     <Compile Include="Interfaces\INestable.cs" />
     <Compile Include="Models\Document.cs" />

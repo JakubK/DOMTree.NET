@@ -1,6 +1,5 @@
 ﻿using DOMTree.NET.Core.Interfaces;
 using DOMTree.NET.Core.Models.DOM;
-using HtmlAgilityPack;
 using MvvmCross.Core.ViewModels;
 using System;
 using System.Collections.Generic;
