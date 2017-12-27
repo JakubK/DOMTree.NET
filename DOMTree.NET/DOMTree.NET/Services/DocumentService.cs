@@ -87,6 +87,11 @@ namespace DOMTree.NET.Services
             return result;
         }
 
+        /// <summary>
+        /// Is just removes the Document from the Collection
+        /// </summary>
+        /// <param name="doc"></param>
+        /// <returns></returns>
         public bool UnLoad(Document doc)
         {
             Documents.Remove(doc);
@@ -101,9 +106,17 @@ namespace DOMTree.NET.Services
             }
 
             File.WriteAllText(uri, doc.Code);
+            UnLoad(doc);
+            Load(doc.Uri);
+
             return true;
         }
 
+        /// <summary>
+        /// Determines the Document's Path and Name via SaveFileDialog, then calls the SaveFile method
+        /// </summary>
+        /// <param name="doc"></param>
+        /// <returns></returns>
         public bool SaveFileAs(Document doc)
         {
             saveFileDialog = new SaveFileDialog();
@@ -124,6 +137,7 @@ namespace DOMTree.NET.Services
             return true;
         }
 
+
         public bool SaveAll()
         {
             for(int i = 0;i < Documents.Count;i++)
@@ -133,6 +147,10 @@ namespace DOMTree.NET.Services
             return true;
         }
 
+        /// <summary>
+        /// Adds blank document to the Collection
+        /// </summary>
+        /// <returns></returns>
         public Document CreateNew()
         {
             Document Doc = new Document();
