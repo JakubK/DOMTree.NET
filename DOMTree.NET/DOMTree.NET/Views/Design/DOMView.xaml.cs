@@ -20,15 +20,15 @@ namespace DOMTree.NET.Views.Design
     /// Logika interakcji dla klasy DesignView.xaml
     /// </summary>
     [MvxRegion("PageContent")]
-    public partial class DesignView : MvxWpfPage
+    public partial class DOMView : MvxWpfPage
     {
-        public new DesignViewModel ViewModel
+        public new DOMViewModel ViewModel
         {
-            get { return (DesignViewModel)base.ViewModel; }
+            get { return (DOMViewModel)base.ViewModel; }
             set { base.ViewModel = value; }
         }
         
-        public DesignView()
+        public DOMView()
         {
             InitializeComponent();
         }
