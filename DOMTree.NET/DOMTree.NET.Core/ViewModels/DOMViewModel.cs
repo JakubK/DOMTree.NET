@@ -1,11 +1,7 @@
 ﻿using DOMTree.NET.Core.Interfaces;
 using DOMTree.NET.Core.Models.DOM;
 using MvvmCross.Core.ViewModels;
-using System;
-using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace DOMTree.NET.Core.ViewModels
 {

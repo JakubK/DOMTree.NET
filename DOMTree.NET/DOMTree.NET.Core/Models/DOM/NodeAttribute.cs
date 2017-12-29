@@ -1,10 +1,4 @@
-﻿using DOMTree.NET.Core.Interfaces;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
+﻿
 namespace DOMTree.NET.Core.Models.DOM
 {
     public class NodeAttribute

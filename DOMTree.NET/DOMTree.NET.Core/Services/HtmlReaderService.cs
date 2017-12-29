@@ -1,14 +1,5 @@
 ﻿using DOMTree.NET.Core.Interfaces;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using DOMTree.NET.Core.Models.DOM;
-using MvvmCross.Platform;
-using System.Xml;
-using System.IO;
-using System.Text.RegularExpressions;
 
 namespace DOMTree.NET.Core.Services
 {
