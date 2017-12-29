@@ -59,7 +59,5 @@ namespace DOMTree.NET.Tests
             //assert
             Assert.IsTrue(service.Documents.Count == 0);
         }
-
-
     }
 }

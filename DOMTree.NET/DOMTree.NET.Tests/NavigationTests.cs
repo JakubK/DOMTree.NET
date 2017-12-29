@@ -1,5 +1,4 @@
 ﻿using DOMTree.NET.Core.Interfaces;
-using DOMTree.NET.Core.Services;
 using DOMTree.NET.Core.ViewModels;
 using DOMTree.NET.Tests.Classes;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
@@ -62,7 +61,7 @@ namespace DOMTree.NET.Tests
             viewModel.ShowDesignCommand.Execute(null);
             // Assert
             Assert.AreEqual(1, MockDispatcher.Requests.Count);
-            Assert.AreEqual(typeof(DesignViewModel),
+            Assert.AreEqual(typeof(DOMViewModel),
                 MockDispatcher.Requests[0].ViewModelType);
         }
     }
