@@ -32,5 +32,12 @@ namespace DOMTree.NET.Views.Design
         {
             InitializeComponent();
         }
+
+        private void Button_Click(object sender, RoutedEventArgs e)
+        {
+            System.Diagnostics.Debug.WriteLine("Text " + text.InputPoint());
+            System.Diagnostics.Debug.WriteLine("Attribute " + attrib.OutputPoint());
+
+        }
     }
 }
