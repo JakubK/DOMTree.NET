@@ -162,6 +162,11 @@ namespace DOMTree.NET.Core.Services
             }
             else //<style> or <script>
             {
+                if (Code[0] == '>')
+                {
+                    Code = Code.Remove(0, 1);
+                }
+                Code = Code.Trim();
                 parent.Children.Add(new TextContent(Code));
             }
         }
