@@ -29,6 +29,7 @@ namespace DOMTree.NET
         {
             base.InitializeFirstChance();
             Mvx.RegisterSingleton<IDocumentService>(() => new DocumentService());
+            Mvx.RegisterSingleton<INodePackerService>(() => new NodePackerService());
         }
     }
 }
