@@ -1,4 +1,5 @@
-﻿using System;
+﻿using DOMTree.NET.Core.Interfaces;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -8,21 +9,21 @@ using System.Windows.Controls;
 
 namespace DOMTree.NET.Controls
 {
-    public class VisualNode : Control
+    public class VisualNode : Control,IVisualNode
     {
         public Point InputPoint()
         {
             double left = double.IsNaN(Canvas.GetLeft(this)) ? 0 : Canvas.GetLeft(this);
             double top = double.IsNaN(Canvas.GetTop(this)) ? 0 : Canvas.GetTop(this);
 
-            return new Point(left + (this.ActualWidth/2), top);
+            return new Point(left + (this.Width / 2), top);
         }
         public Point OutputPoint()
         {
             double left = double.IsNaN(Canvas.GetLeft(this)) ? 0 : Canvas.GetLeft(this);
             double top = double.IsNaN(Canvas.GetTop(this)) ? 0 : Canvas.GetTop(this);
 
-            return new Point(left + (this.ActualWidth / 2), top + this.ActualHeight);
+            return new Point(left + (this.Width / 2), top + this.Height);
         }
 
         public static readonly DependencyProperty TextProperty = DependencyProperty.Register("Text", typeof(string), typeof(VisualNode));
@@ -32,5 +33,6 @@ namespace DOMTree.NET.Controls
             set { SetValue(TextProperty, value); }
         }
 
+        public VisualNode ParentNode;
     }
 }
