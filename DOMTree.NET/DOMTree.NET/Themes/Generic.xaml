@@ -55,7 +55,7 @@
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="{x:Type local:Connection}">
-                    <Line Stroke="White" X1="{TemplateBinding X1}" Y1="{TemplateBinding Y1}" X2="{TemplateBinding X2}" Y2="{TemplateBinding Y2}"/>
+                    <Line StrokeThickness="2" Stroke="White" X1="{TemplateBinding X1}" Y1="{TemplateBinding Y1}" X2="{TemplateBinding X2}" Y2="{TemplateBinding Y2}"/>
                 </ControlTemplate>
             </Setter.Value>
         </Setter>

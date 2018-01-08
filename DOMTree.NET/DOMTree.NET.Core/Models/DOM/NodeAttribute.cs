@@ -1,4 +1,6 @@
 ﻿
+using DOMTree.NET.Core.Interfaces;
+
 namespace DOMTree.NET.Core.Models.DOM
 {
     public class NodeAttribute

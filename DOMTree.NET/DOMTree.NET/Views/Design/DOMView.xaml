@@ -10,15 +10,28 @@
       Title="DesignView">
     <Grid>
         <Grid x:Name="grid" HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
-            <ScrollViewer HorizontalScrollBarVisibility="Visible" VerticalScrollBarVisibility="Visible" Grid.Column="0" Grid.Row="0">
-                <Canvas Background="Black" Width="{Binding CanvasWidth}" Height="{Binding CanvasHeight}">
+            <ScrollViewer HorizontalScrollBarVisibility="Auto" VerticalScrollBarVisibility="Auto" Grid.Column="0" Grid.Row="0">
+                <ItemsControl ItemsSource="{Binding NodePacker.VisualNodes}">
+                    <!--<ItemsControl.ItemTemplate>
+                        <DataTemplate>
+                            <ContentPresenter Content="{Binding Converter={StaticResource NodeConverter}}"/>
+                        </DataTemplate>
+                    </ItemsControl.ItemTemplate>-->
+                    <ItemsControl.ItemsPanel>
+                        <ItemsPanelTemplate>
+                <Canvas x:Name="tempCanvas" Background="Black" Width="{Binding CanvasWidth}" Height="{Binding CanvasHeight}">
+                  
                     <!--<Button Click="Button_Click" Content="Click Me" Canvas.Left="100"/>-->
-                    <controls:MarkupNode Text="head" x:Name="markup" Canvas.Left="200"/>
-                    <controls:AttributeNode x:Name="attrib" Text="h1{ font-size: 20;}" Canvas.Left="200" Canvas.Top="200" />
+                    
+                    <!--<controls:MarkupNode Text="div" x:Name="markup" Canvas.Left="200"/>
+                    <controls:AttributeNode x:Name="attrib" Text="id empty" Canvas.Left="200" Canvas.Top="200" />
                     <controls:TextNode x:Name="text" Text="Lorem ipsum dolor sit amet" Canvas.Left="200" Canvas.Top="400"/>
                     <controls:Connection X1="235" Y1="25" X2="250" Y2="200"/>
-                    <controls:Connection X1="250" Y1="400" X2="250" Y2="300"/>
+                    <controls:Connection X1="250" Y1="400" X2="250" Y2="300"/>-->
                 </Canvas>
+                        </ItemsPanelTemplate>
+                    </ItemsControl.ItemsPanel>
+                </ItemsControl>
             </ScrollViewer>
         </Grid>
     </Grid>

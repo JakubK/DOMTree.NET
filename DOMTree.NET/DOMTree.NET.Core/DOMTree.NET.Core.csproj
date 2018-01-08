@@ -61,6 +61,8 @@
     <Compile Include="Interfaces\IDocumentService.cs" />
     <Compile Include="Interfaces\IHtmlReaderService.cs" />
     <Compile Include="Interfaces\INestable.cs" />
+    <Compile Include="Interfaces\INodePackerService.cs" />
+    <Compile Include="Interfaces\IVisualNode.cs" />
     <Compile Include="Models\Document.cs" />
     <Compile Include="Models\DOM\NodeAttribute.cs" />
     <Compile Include="Models\DOM\Node.cs" />

@@ -1,4 +1,5 @@
-﻿using DOMTree.NET.Core.ViewModels;
+﻿using DOMTree.NET.Controls;
+using DOMTree.NET.Core.ViewModels;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -31,13 +32,36 @@ namespace DOMTree.NET.Views.Design
         public DOMView()
         {
             InitializeComponent();
+
+            //MarkupNode markup = new MarkupNode();
+            //markup.Text = "div";
+            //tempCanvas.Children.Add(markup);
+            //Canvas.SetLeft(markup,200);
+
+            //AttributeNode attrib = new AttributeNode();
+            //attrib.Text = "id empty";
+            //tempCanvas.Children.Add(attrib);
+            //Canvas.SetLeft(attrib, 200);
+            //Canvas.SetTop(attrib, 200);
+
+            //TextNode text = new TextNode();
+            //text.Text = "Lorem ipsum dolor sit amet";
+            //tempCanvas.Children.Add(text);
+            //Canvas.SetLeft(text, 200);
+            //Canvas.SetTop(text, 400);
+
+
+            //Connection markup2attrib = new Connection(markup,attrib);
+            //tempCanvas.Children.Add(markup2attrib);
+
+            //Connection markup2text = new Connection(markup, text);
+            //tempCanvas.Children.Add(markup2text);
         }
 
         private void Button_Click(object sender, RoutedEventArgs e)
         {
-            System.Diagnostics.Debug.WriteLine("Text " + text.InputPoint());
-            System.Diagnostics.Debug.WriteLine("Attribute " + attrib.OutputPoint());
-
+            //System.Diagnostics.Debug.WriteLine("Text " + text.InputPoint());
+            //System.Diagnostics.Debug.WriteLine("Attribute " + attrib.OutputPoint());
         }
     }
 }

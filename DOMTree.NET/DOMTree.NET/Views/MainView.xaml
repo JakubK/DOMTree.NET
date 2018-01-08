@@ -64,7 +64,8 @@
                 </Grid.ColumnDefinitions>
                 <Button Grid.Row="0" Grid.Column="0" Content=" DESIGN MODE " Command="{Binding ShowDesignCommand}"/>
                 <Button Grid.Row="0" Grid.Column="1" Content=" CODE MODE " Command="{Binding ShowCodeCommand}"/>
-                <Frame x:Name="PageContent" Grid.Row="1" Grid.ColumnSpan="2" Background="Red" NavigationUIVisibility="Hidden">
+                
+                <Frame x:Name="PageContent" Grid.Row="1" Grid.ColumnSpan="2" Background="Violet" NavigationUIVisibility="Hidden">
                     
                 </Frame>
             </Grid>
