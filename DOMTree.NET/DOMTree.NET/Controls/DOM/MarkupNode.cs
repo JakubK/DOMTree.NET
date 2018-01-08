@@ -1,4 +1,5 @@
-﻿using System;
+﻿using DOMTree.NET.Core.Models.DOM;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -21,5 +22,18 @@ namespace DOMTree.NET.Controls
         {
             DefaultStyleKeyProperty.OverrideMetadata(typeof(MarkupNode), new FrameworkPropertyMetadata(typeof(MarkupNode)));
         }
+
+        public MarkupNode()
+        {
+
+        }
+
+        public MarkupNode(string text)
+        {
+            this.Text = text;
+        }
+
+        public Node Node { get; set; }
+
     }
 }

@@ -12,6 +12,7 @@ namespace DOMTree.NET.Controls
     public class Connection : Control
     {
         public static readonly DependencyProperty X1Property = DependencyProperty.Register("X1", typeof(double), typeof(Connection));
+
         public double X1
         {
             get { return (double)GetValue(X1Property); }
@@ -32,7 +33,6 @@ namespace DOMTree.NET.Controls
             set { SetValue(X2Property, value); }
         }
 
-
         public static readonly DependencyProperty Y2Property = DependencyProperty.Register("Y2", typeof(double), typeof(Connection));
         public double Y2
         {
@@ -40,9 +40,29 @@ namespace DOMTree.NET.Controls
             set { SetValue(Y2Property, value); }
         }
 
+        public VisualNode ParentNode;
+        public VisualNode ChildNode;
+
         static Connection()
         {
             DefaultStyleKeyProperty.OverrideMetadata(typeof(Connection),new FrameworkPropertyMetadata(typeof(Connection)));
+        }
+
+        public Connection(VisualNode parent,VisualNode child)
+        {
+            this.ParentNode = parent;
+            this.ChildNode = child;
+
+            ReInitialize();
+        }
+
+        public void ReInitialize()
+        {
+            X1 = ParentNode.OutputPoint().X;
+            Y1 = ParentNode.OutputPoint().Y;
+
+            X2 = ChildNode.InputPoint().X;
+            Y2 = ChildNode.InputPoint().Y;
         }
     }
 }
