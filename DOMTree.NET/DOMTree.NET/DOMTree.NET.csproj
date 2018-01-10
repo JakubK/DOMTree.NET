@@ -87,6 +87,7 @@
       <DependentUpon>App.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="Controls\DOMCanvas.cs" />
     <Compile Include="Controls\DOM\AttributeNode.cs" />
     <Compile Include="Controls\DOM\Connection.cs" />
     <Compile Include="Controls\DOM\MarkupNode.cs" />
