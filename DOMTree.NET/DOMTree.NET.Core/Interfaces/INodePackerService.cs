@@ -11,5 +11,7 @@ namespace DOMTree.NET.Core.Interfaces
     public interface INodePackerService
     {
         void Pack(INestable node,IVisualNode parentNode = null);
+
+        IVisualNode VisualNode { get; set; }
     }
 }

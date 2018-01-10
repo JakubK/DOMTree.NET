@@ -12,78 +12,69 @@ namespace DOMTree.NET.Services
 {
     public class NodePackerService : INodePackerService
     {
-        private ObservableCollection<IVisualNode> visualNodes;
-
-        public ObservableCollection<IVisualNode> VisualNodes
-        {
-            get { return visualNodes; }
-            set { visualNodes = value; }
-        }
+        public IVisualNode VisualNode { get; set; }
 
         public NodePackerService()
         {
-            VisualNodes = new ObservableCollection<IVisualNode>();
         }
 
-        /// <summary>
-        /// Create VisualNodes for each Node in rootNode, and pack it 
-        /// </summary>
-        /// <param name="rootNode"></param>
-        public void Pack(INestable nestable,IVisualNode parent = null)
+        public void Pack(INestable nestable, IVisualNode parent = null)
         {
-            VisualNodes = new ObservableCollection<IVisualNode>();
             if (nestable is Node)
             {
                 Node myNode = (Node)nestable;
-                //System.Diagnostics.Debug.WriteLine("NodePacking " + myNode.Name);
+                
 
                 MarkupNode markupNode = new MarkupNode(myNode.Name);
-                markupNode.Node = myNode;
 
-                if(parent != null)
-                {
-                    markupNode.ParentNode = (MarkupNode)parent;
-                }
-
-                VisualNodes.Add(markupNode);
-
-
-                if (myNode.Attributes.Count > 0)
+                
+                if(myNode.Attributes.Count > 0)
                 {
                     string AttribText = "";
-                    foreach (var attrib in myNode.Attributes)
+                    foreach (var attribute in myNode.Attributes)
                     {
-                        AttribText += attrib.Key + " : " + attrib.Value;
-                        //System.Diagnostics.Debug.WriteLine("AttributePacking " + attrib.Key + " : " + attrib.Value);
+                        AttribText += attribute.Key + " : " + attribute.Value;
                     }
                     AttributeNode attribNode = new AttributeNode();
                     attribNode.Attributes = myNode.Attributes;
                     attribNode.Text = AttribText;
 
-                    attribNode.ParentNode = markupNode;
-
-                    VisualNodes.Add(attribNode);
+                    markupNode.Attribute = attribNode;
                 }
 
-                if (myNode.Children.Count > 0) // <markup>...</markup>
+                if (parent == null)
                 {
-                    foreach (var child in myNode.Children)
+                    //System.Diagnostics.Debug.WriteLine(markupNode.Text);
+                    VisualNode = markupNode;
+                }
+                else
+                {
+                    parent.Nodes.Add(markupNode);
+                }
+
+                if(myNode.Children.Count > 0)
+                {
+                    foreach(var child in myNode.Children)
                     {
-                        Pack(child,markupNode);
+                        Pack(child, markupNode);
                     }
                 }
             }
-            else //Text
+           else //Text
             {
                 TextContent content = (TextContent)nestable;
                 //System.Diagnostics.Debug.WriteLine("TextPacking " + content.Text);
                 TextNode textNode = new TextNode(content.Text);
-                if (parent != null)
+                if (parent == null)
                 {
-                    textNode.ParentNode = (MarkupNode)parent;
+                    VisualNode = textNode;
                 }
-                VisualNodes.Add(textNode);
+                else
+                {
+                    parent.Nodes.Add(textNode);
+                }
             }
         }
+
     }
 }
