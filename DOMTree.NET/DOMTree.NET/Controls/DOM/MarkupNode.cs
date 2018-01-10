@@ -25,7 +25,7 @@ namespace DOMTree.NET.Controls
 
         public MarkupNode()
         {
-
+            Attribute = new AttributeNode();
         }
 
         public MarkupNode(string text)
@@ -34,6 +34,8 @@ namespace DOMTree.NET.Controls
         }
 
         public Node Node { get; set; }
+
+        public AttributeNode Attribute;
 
     }
 }

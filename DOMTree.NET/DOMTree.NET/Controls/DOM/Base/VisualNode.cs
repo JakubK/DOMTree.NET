@@ -33,6 +33,13 @@ namespace DOMTree.NET.Controls
             set { SetValue(TextProperty, value); }
         }
 
+        public VisualNode()
+        {
+            Nodes = new List<IVisualNode>();
+        }
+
+        public List<IVisualNode> Nodes { get; set; }
+
         public VisualNode ParentNode;
     }
 }

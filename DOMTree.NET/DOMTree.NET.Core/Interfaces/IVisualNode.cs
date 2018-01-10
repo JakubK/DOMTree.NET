@@ -8,6 +8,6 @@ namespace DOMTree.NET.Core.Interfaces
 {
     public interface IVisualNode
     {
-
+        List<IVisualNode> Nodes { get; set; }
     }
 }
