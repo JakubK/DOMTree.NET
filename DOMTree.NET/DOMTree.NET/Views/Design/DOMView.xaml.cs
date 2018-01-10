@@ -1,5 +1,8 @@
 ﻿using DOMTree.NET.Controls;
+using DOMTree.NET.Core.Interfaces;
 using DOMTree.NET.Core.ViewModels;
+using DOMTree.NET.Services;
+using MvvmCross.Platform;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -32,7 +35,6 @@ namespace DOMTree.NET.Views.Design
         public DOMView()
         {
             InitializeComponent();
-
             //MarkupNode markup = new MarkupNode();
             //markup.Text = "div";
             //tempCanvas.Children.Add(markup);
