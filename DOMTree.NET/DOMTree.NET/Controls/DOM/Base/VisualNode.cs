@@ -13,15 +13,15 @@ namespace DOMTree.NET.Controls
     {
         public Point InputPoint()
         {
-            double left = double.IsNaN(Canvas.GetLeft(this)) ? 0 : Canvas.GetLeft(this);
-            double top = double.IsNaN(Canvas.GetTop(this)) ? 0 : Canvas.GetTop(this);
+            double left = double.IsNaN(DOMCanvas.GetLeft(this)) ? 0 : DOMCanvas.GetLeft(this);
+            double top = double.IsNaN(DOMCanvas.GetTop(this)) ? 0 : DOMCanvas.GetTop(this);
 
             return new Point(left + (this.Width / 2), top);
         }
         public Point OutputPoint()
         {
-            double left = double.IsNaN(Canvas.GetLeft(this)) ? 0 : Canvas.GetLeft(this);
-            double top = double.IsNaN(Canvas.GetTop(this)) ? 0 : Canvas.GetTop(this);
+            double left = double.IsNaN(DOMCanvas.GetLeft(this)) ? 0 : DOMCanvas.GetLeft(this);
+            double top = double.IsNaN(DOMCanvas.GetTop(this)) ? 0 : DOMCanvas.GetTop(this);
 
             return new Point(left + (this.Width / 2), top + this.Height);
         }
@@ -40,6 +40,32 @@ namespace DOMTree.NET.Controls
 
         public List<IVisualNode> Nodes { get; set; }
 
+        public int Level
+        {
+            get { return GetLevel(); }
+        }
+
         public VisualNode ParentNode;
+
+        public int GetLevel()
+        {
+            int Lvl = 0;
+            if(ParentNode != null)
+            {
+                ClimbToNext(ref Lvl, ParentNode);
+            }
+            return Lvl;
+        }
+
+        private int ClimbToNext(ref int Level,VisualNode parent)
+        {
+            Level++;
+            if(parent.ParentNode != null)
+            {
+                ClimbToNext(ref Level, parent.ParentNode);
+            }
+
+            return Level;
+        }
     }
 }
