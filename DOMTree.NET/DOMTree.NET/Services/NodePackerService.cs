@@ -20,60 +20,62 @@ namespace DOMTree.NET.Services
 
         public void Pack(INestable nestable, IVisualNode parent = null)
         {
-            if (nestable is Node)
-            {
-                Node myNode = (Node)nestable;
-                
-
-                MarkupNode markupNode = new MarkupNode(myNode.Name);
-
-                
-                if(myNode.Attributes.Count > 0)
+                if (nestable is Node)
                 {
-                    string AttribText = "";
-                    foreach (var attribute in myNode.Attributes)
+                    Node myNode = (Node)nestable;
+
+                    MarkupNode markupNode = new MarkupNode(myNode.Name);
+
+                    if (myNode.Attributes.Count > 0)
                     {
-                        AttribText += attribute.Key + " : " + attribute.Value;
+                        string AttribText = "";
+                        foreach (var attribute in myNode.Attributes)
+                        {
+                            AttribText += attribute.Key + " : " + attribute.Value;
+                        }
+                        AttributeNode attribNode = new AttributeNode();
+                        attribNode.Attributes = myNode.Attributes;
+                        attribNode.Text = AttribText;
+
+                        //markupNode.Attribute = attribNode;
+                        markupNode.Nodes.Add(attribNode);
+                        attribNode.ParentNode = markupNode;
                     }
-                    AttributeNode attribNode = new AttributeNode();
-                    attribNode.Attributes = myNode.Attributes;
-                    attribNode.Text = AttribText;
 
-                    markupNode.Attribute = attribNode;
-                }
-
-                if (parent == null)
-                {
-                    //System.Diagnostics.Debug.WriteLine(markupNode.Text);
-                    VisualNode = markupNode;
-                }
-                else
-                {
-                    parent.Nodes.Add(markupNode);
-                }
-
-                if(myNode.Children.Count > 0)
-                {
-                    foreach(var child in myNode.Children)
+                    if (parent == null)
                     {
-                        Pack(child, markupNode);
+                        //System.Diagnostics.Debug.WriteLine(markupNode.Text);
+                        VisualNode = markupNode;
+                    }
+                    else
+                    {
+                        markupNode.ParentNode = (VisualNode)parent;
+                        parent.Nodes.Add(markupNode);
+                    }
+
+                    if (myNode.Children.Count > 0)
+                    {
+                        foreach (var child in myNode.Children)
+                        {
+                            Pack(child, markupNode);
+                        }
                     }
                 }
-            }
-           else //Text
-            {
-                TextContent content = (TextContent)nestable;
-                //System.Diagnostics.Debug.WriteLine("TextPacking " + content.Text);
-                TextNode textNode = new TextNode(content.Text);
-                if (parent == null)
+                else //Text
                 {
-                    VisualNode = textNode;
+                    TextContent content = (TextContent)nestable;
+                    //System.Diagnostics.Debug.WriteLine("TextPacking " + content.Text);
+                    TextNode textNode = new TextNode(content.Text);
+                    if (parent == null)
+                    {
+                        VisualNode = textNode;
+                    }
+                    else
+                    {
+                        textNode.ParentNode = (VisualNode)parent;
+                        parent.Nodes.Add(textNode);
+                    }
                 }
-                else
-                {
-                    parent.Nodes.Add(textNode);
-                }
-            }
         }
 
     }
