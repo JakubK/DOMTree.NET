@@ -35,35 +35,59 @@ namespace DOMTree.NET.Views.Design
         public DOMView()
         {
             InitializeComponent();
-            //MarkupNode markup = new MarkupNode();
-            //markup.Text = "div";
-            //tempCanvas.Children.Add(markup);
-            //Canvas.SetLeft(markup,200);
-
-            //AttributeNode attrib = new AttributeNode();
-            //attrib.Text = "id empty";
-            //tempCanvas.Children.Add(attrib);
-            //Canvas.SetLeft(attrib, 200);
-            //Canvas.SetTop(attrib, 200);
-
-            //TextNode text = new TextNode();
-            //text.Text = "Lorem ipsum dolor sit amet";
-            //tempCanvas.Children.Add(text);
-            //Canvas.SetLeft(text, 200);
-            //Canvas.SetTop(text, 400);
-
-
-            //Connection markup2attrib = new Connection(markup,attrib);
-            //tempCanvas.Children.Add(markup2attrib);
-
-            //Connection markup2text = new Connection(markup, text);
-            //tempCanvas.Children.Add(markup2text);
+            Loaded += (x, y) => Keyboard.Focus(canvas);
         }
 
-        private void Button_Click(object sender, RoutedEventArgs e)
+        private void DOMCanvas_KeyDown(object sender, KeyEventArgs e)
         {
-            //System.Diagnostics.Debug.WriteLine("Text " + text.InputPoint());
-            //System.Diagnostics.Debug.WriteLine("Attribute " + attrib.OutputPoint());
+            
+            if (e.Key == Key.W)
+            {
+                for (int i = 0; i < canvas.Children.Count; i++)
+                {
+                    if (double.IsNaN(DOMCanvas.GetTop(canvas.Children[i])))
+                    {
+                        DOMCanvas.SetTop(canvas.Children[i], 1.0);
+                    }
+                    DOMCanvas.SetTop(canvas.Children[i], DOMCanvas.GetTop(canvas.Children[i]) + 2);
+                }
+            }
+            if (e.Key == Key.A)
+            {
+                for (int i = 0; i < canvas.Children.Count; i++)
+                {
+                    if (double.IsNaN(DOMCanvas.GetLeft(canvas.Children[i])))
+                    {
+                        DOMCanvas.SetLeft(canvas.Children[i], 1.0);
+                    }
+                    DOMCanvas.SetLeft(canvas.Children[i], DOMCanvas.GetLeft(canvas.Children[i]) + 2);
+                }
+            }
+
+
+            if (e.Key == Key.S)
+            {
+                for (int i = 0; i < canvas.Children.Count; i++)
+                {
+                    if (double.IsNaN(DOMCanvas.GetTop(canvas.Children[i])))
+                    {
+                        DOMCanvas.SetTop(canvas.Children[i], 1.0);
+                    }
+                    DOMCanvas.SetTop(canvas.Children[i], DOMCanvas.GetTop(canvas.Children[i]) - 2);
+                }
+            }
+
+            if (e.Key == Key.D)
+            {
+                for (int i = 0; i < canvas.Children.Count; i++)
+                {
+                    if (double.IsNaN(DOMCanvas.GetLeft(canvas.Children[i])))
+                    {
+                        DOMCanvas.SetLeft(canvas.Children[i], 1.0);
+                    }
+                    DOMCanvas.SetLeft(canvas.Children[i], DOMCanvas.GetLeft(canvas.Children[i]) - 2);
+                }
+            }
         }
     }
 }

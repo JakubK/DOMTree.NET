@@ -8,13 +8,11 @@
       d:DesignHeight="300" d:DesignWidth="300"
       xmlns:local="clr-namespace:DOMTree.NET"
       Title="DesignView">
-    <Grid>
-        <Grid x:Name="grid" HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
+        <Grid KeyDown="DOMCanvas_KeyDown" ClipToBounds="True" HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
             <ScrollViewer HorizontalScrollBarVisibility="Auto" VerticalScrollBarVisibility="Auto" Grid.Column="0" Grid.Row="0">
-                <controls:DOMCanvas RootNode="{Binding NodePacker.VisualNode}" Background="Black" Width="{Binding CanvasWidth}" Height="{Binding CanvasHeight}">
-
+                <controls:DOMCanvas x:Name="canvas" Focusable="True" ClipToBounds="True" RootNode="{Binding NodePacker.VisualNode}" Background="Black" Width="{Binding CanvasWidth}" Height="{Binding CanvasHeight}">
+                    
                 </controls:DOMCanvas>
             </ScrollViewer>
         </Grid>
-    </Grid>
 </local:MvxWpfPage>
