@@ -93,6 +93,7 @@
     <Compile Include="Controls\DOM\MarkupNode.cs" />
     <Compile Include="Controls\DOM\TextNode.cs" />
     <Compile Include="Controls\DOM\Base\VisualNode.cs" />
+    <Compile Include="Helpers\PositionHelper.cs" />
     <Compile Include="Infrastructure\CustomViewPresenter.cs" />
     <Compile Include="Infrastructure\MvxMultiRegionWpfViewPresenter.cs" />
     <Compile Include="Infrastructure\MvxRegionAttribute.cs" />
