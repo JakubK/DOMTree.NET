@@ -40,18 +40,18 @@ namespace DOMTree.NET.Views.Design
 
         private void DOMCanvas_KeyDown(object sender, KeyEventArgs e)
         {
-            
             if (e.Key == Key.W)
             {
                 for (int i = 0; i < canvas.Children.Count; i++)
                 {
-                    if (double.IsNaN(DOMCanvas.GetTop(canvas.Children[i])))
+                    if (double.IsNaN(DOMCanvas.GetBottom(canvas.Children[i])))
                     {
-                        DOMCanvas.SetTop(canvas.Children[i], 1.0);
+                        DOMCanvas.SetBottom(canvas.Children[i], 1.0);
                     }
-                    DOMCanvas.SetTop(canvas.Children[i], DOMCanvas.GetTop(canvas.Children[i]) + 2);
+                    DOMCanvas.SetBottom(canvas.Children[i], DOMCanvas.GetBottom(canvas.Children[i]) - 2);
                 }
             }
+            
             if (e.Key == Key.A)
             {
                 for (int i = 0; i < canvas.Children.Count; i++)
@@ -69,11 +69,11 @@ namespace DOMTree.NET.Views.Design
             {
                 for (int i = 0; i < canvas.Children.Count; i++)
                 {
-                    if (double.IsNaN(DOMCanvas.GetTop(canvas.Children[i])))
+                    if (double.IsNaN(DOMCanvas.GetBottom(canvas.Children[i])))
                     {
-                        DOMCanvas.SetTop(canvas.Children[i], 1.0);
+                        DOMCanvas.SetBottom(canvas.Children[i], 1.0);
                     }
-                    DOMCanvas.SetTop(canvas.Children[i], DOMCanvas.GetTop(canvas.Children[i]) - 2);
+                    DOMCanvas.SetBottom(canvas.Children[i], DOMCanvas.GetBottom(canvas.Children[i]) + 2);
                 }
             }
 

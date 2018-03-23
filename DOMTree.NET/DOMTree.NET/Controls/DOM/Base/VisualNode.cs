@@ -40,14 +40,23 @@ namespace DOMTree.NET.Controls
 
         public List<IVisualNode> Nodes { get; set; }
 
+        private int level = -1;
         public int Level
         {
-            get { return GetLevel(); }
+            get
+            {
+                if (level < 0)
+                {
+                    level = GetLevel();
+                }
+
+                return level;
+            }
         }
 
         public VisualNode ParentNode;
 
-        public int GetLevel()
+        private int GetLevel()
         {
             int Lvl = 0;
             if(ParentNode != null)

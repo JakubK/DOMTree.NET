@@ -24,8 +24,7 @@ namespace DOMTree.NET.Controls
 
         static DOMCanvas()
         {
-            DefaultStyleKeyProperty.OverrideMetadata(typeof(DOMCanvas), new FrameworkPropertyMetadata(typeof(DOMCanvas)));
-            
+            DefaultStyleKeyProperty.OverrideMetadata(typeof(DOMCanvas), new FrameworkPropertyMetadata(typeof(DOMCanvas)));       
         }
 
         public DOMCanvas()
@@ -48,121 +47,88 @@ namespace DOMTree.NET.Controls
         private void AddChildren(VisualNode node)
         {
             this.Children.Add(node);
+            //System.Diagnostics.Debug.WriteLine("Level of " + node.Text + " " + node.Level);
             foreach(VisualNode child in node.Nodes)
             {
                 AddChildren(child);
             }
         }
 
-        void CalculateMaxWidths(VisualNode parent,ref List<double> maxWidths)
-        {
-            double d = 0.0;
-            foreach(VisualNode child in parent.Nodes)
-            {
-                d += child.Width;
-                CalculateMaxWidths(child, ref maxWidths);
-            }
+        Dictionary<int, List<VisualNode>> Nodes;
 
-            maxWidths.Add(d);
+        public void Prepare(VisualNode node, ref int highest)
+        {
+            if (node.Level > highest)
+                highest = node.Level;
+
+            if (!Nodes.Keys.Contains(node.Level))
+                Nodes[node.Level] = new List<VisualNode>();
+
+            Nodes[node.Level].Add(node);
+
+            foreach(VisualNode childNode in node.Nodes)
+            {
+                Prepare(childNode, ref highest);
+            }
         }
 
-        public void SetupPositions(VisualNode node)
+        public void AlternateSetupPositions(int Level)
         {
-            if(double.IsNaN(DOMCanvas.GetLeft(node)) && double.IsNaN(DOMCanvas.GetTop(node))) //Check if it's possition is not assigned
+            var nodes = Nodes[Level];
+
+            for(int i = 0;i < nodes.Count;i++)
             {
-                if(node.ParentNode == null)
+                if (Level == MaxLevel)
                 {
-                    //^If it has no parent, then it's the RootNode
-                    DOMCanvas.SetTop(node, 30.0);
-                    DOMCanvas.SetLeft(node,this.Width / 2 - node.Width / 2);
+                    var MaxHeight = Nodes[Level].Aggregate((h1, h2) => h1.Height > h2.Height ? h1 : h2).Height;
+                    DOMCanvas.SetBottom(nodes[i], 10.0 + (MaxHeight - nodes[i].Height));
+                    DOMCanvas.SetLeft(nodes[i], i == 0 ? 0 : DOMCanvas.GetLeft(nodes[i - 1]) + nodes[i - 1].Width + 10.0);
                 }
                 else
                 {
-                    List<double> MaxWidths = new List<double>();
-                    //Calculate MaxWidths in Lower Levels
-                    CalculateMaxWidths(node.ParentNode,ref MaxWidths);
-                    double max = MaxWidths.Max();
+                    nodes = nodes.OrderByDescending(x => x.Nodes.Count).ToList();
+                    var MaxHeight = Nodes[Level].Aggregate((h1, h2) => h1.Height > h2.Height ? h1 : h2).Height;
 
-                    if(node.ParentNode.Nodes.Count % 2 == 0) //ChildCount is Even
+                    if (nodes[i].Nodes.Count > 0)
                     {
-                        double center = DOMCanvas.GetLeft(node.ParentNode) + node.ParentNode.Width / 2;
-                        DOMCanvas.SetTop((VisualNode)node.ParentNode.Nodes[node.ParentNode.Nodes.Count / 2 - 1], DOMCanvas.GetTop(node.ParentNode) + node.ParentNode.Height + 10.0);
-                        DOMCanvas.SetLeft((VisualNode)node.ParentNode.Nodes[node.ParentNode.Nodes.Count / 2 - 1], center - max/2 - ((VisualNode)node.ParentNode.Nodes[node.ParentNode.Nodes.Count / 2 - 1]).Width);
-
-                        DOMCanvas.SetTop((VisualNode)node.ParentNode.Nodes[node.ParentNode.Nodes.Count / 2], DOMCanvas.GetTop(node.ParentNode) + node.ParentNode.Height + 10.0);
-                        DOMCanvas.SetLeft((VisualNode)node.ParentNode.Nodes[node.ParentNode.Nodes.Count / 2], center + max/2 );
-
-                        //To the left
-                        for (int i = node.ParentNode.Nodes.Count / 2 - 2; i > -1; i--)
-                        {
-                            DOMCanvas.SetTop((VisualNode)node.ParentNode.Nodes[i], DOMCanvas.GetTop(node.ParentNode) + node.ParentNode.Height + 10.0);
-                            DOMCanvas.SetLeft((VisualNode)node.ParentNode.Nodes[i], DOMCanvas.GetLeft((VisualNode)node.ParentNode.Nodes[i + 1]) - max/2  - ((VisualNode)node.ParentNode.Nodes[i]).Width);
-                        }
-
-                        //To the Right
-                        for (int i = node.ParentNode.Nodes.Count / 2 + 1; i < node.ParentNode.Nodes.Count; i++)
-                        {
-                            DOMCanvas.SetTop((VisualNode)node.ParentNode.Nodes[i], DOMCanvas.GetTop(node.ParentNode) + node.ParentNode.Height + 10.0);
-                            DOMCanvas.SetLeft((VisualNode)node.ParentNode.Nodes[i], DOMCanvas.GetLeft((VisualNode)node.ParentNode.Nodes[i - 1]) + max/2);
-                        }
+                        DOMCanvas.SetBottom(nodes[i], DOMCanvas.GetBottom(Nodes[Level + 1].Aggregate((h1, h2) => h1.Height > h2.Height ? h1 : h2)) + Nodes[Level + 1].Aggregate((h1, h2) => h1.Height > h2.Height ? h1 : h2).Height + 10.0 + (MaxHeight - nodes[i].Height));                      
                     }
-                    else //ChildCount is Odd
+                    else
                     {
-                        int center = node.ParentNode.Nodes.Count / 2;
-                        DOMCanvas.SetTop((VisualNode)node.ParentNode.Nodes[center], DOMCanvas.GetTop(node.ParentNode) + node.ParentNode.Height + 10.0);
-                        if (((VisualNode)node.ParentNode.Nodes[center]).Width > node.ParentNode.Width)
-                        {
-                            DOMCanvas.SetLeft((VisualNode)node.ParentNode.Nodes[center], DOMCanvas.GetLeft(node.ParentNode) - (((VisualNode)node.ParentNode.Nodes[center]).Width - node.ParentNode.Width) /2);
-                        }
-                        else
-                        {
-                            DOMCanvas.SetLeft((VisualNode)node.ParentNode.Nodes[center], DOMCanvas.GetLeft(node.ParentNode));
-                        }
-                       
-
-                        //To the Left
-                        for (int i = center-1;i > -1;i--)
-                        {
-                            DOMCanvas.SetTop((VisualNode)node.ParentNode.Nodes[i], DOMCanvas.GetTop(node.ParentNode) + node.ParentNode.Height + 10.0);
-                            DOMCanvas.SetLeft((VisualNode)node.ParentNode.Nodes[i], DOMCanvas.GetLeft((VisualNode)node.ParentNode.Nodes[i + 1]) - ((VisualNode)node.ParentNode.Nodes[i]).Width - 10.0);
-                        }
-
-                        //To the Right
-                        for (int i = center + 1; i < node.ParentNode.Nodes.Count; i++)
-                        {
-                            DOMCanvas.SetTop((VisualNode)node.ParentNode.Nodes[i], DOMCanvas.GetTop(node.ParentNode) + node.ParentNode.Height + 10.0);
-                            DOMCanvas.SetLeft((VisualNode)node.ParentNode.Nodes[i], DOMCanvas.GetLeft((VisualNode)node.ParentNode.Nodes[i - 1]) + ((VisualNode)node.ParentNode.Nodes[i]).Width + 10.0);
-                        }
+                        DOMCanvas.SetBottom(nodes[i], DOMCanvas.GetBottom(Nodes[Level + 1].Aggregate((h1, h2) => h1.Height > h2.Height ? h1 : h2)) + Nodes[Level + 1].Aggregate((h1, h2) => h1.Height > h2.Height ? h1 : h2).Height + 10.0 + (MaxHeight - nodes[i].Height));
                     }
-                    
-                    foreach(VisualNode child in node.ParentNode.Nodes)
+
+                    if (nodes[i].Nodes.Count > 0)
                     {
-                        DOMCanvas.SetTop(child, DOMCanvas.GetTop(node.ParentNode) + node.ParentNode.Height + 10.0);     
+                        DOMCanvas.SetLeft(nodes[i], nodes[i].Nodes.Sum(x => DOMCanvas.GetLeft((VisualNode)x)) / nodes[i].Nodes.Count + Math.Abs(nodes[i].Width - ((VisualNode)nodes[i].Nodes[nodes[i].Nodes.Count / 2]).Width) / 2);
+                    }
+                    else
+                    {
+                        DOMCanvas.SetLeft(nodes[i], i == 0 ? 0 : DOMCanvas.GetLeft(nodes[i - 1]) + nodes[i - 1].Width + 10.0);
                     }
                 }
             }
-            foreach (VisualNode child in node.Nodes)
+
+            if(Level > 0)
             {
-                SetupPositions(child);
+                Level--;
+                AlternateSetupPositions(Level);
             }
         }
 
-        void PrintLeft(VisualNode node)
-        {
-            System.Diagnostics.Debug.WriteLine(DOMCanvas.GetLeft(node));
-            foreach(VisualNode child in node.Nodes)
-            {
-                PrintLeft(child);
-            }
-        }
+        int MaxLevel = 0;
 
         private void dispatcherTimer_Tick(object sender, EventArgs e)
         {
             AddChildren(RootNode);
-            SetupPositions(RootNode);
+            //SetupPositions(RootNode);
+
+            Nodes = new Dictionary<int, List<VisualNode>>();
+
+            Prepare(RootNode, ref MaxLevel);
+            AlternateSetupPositions(MaxLevel);
+
             //PrintLeft(RootNode);
-
-
             (sender as DispatcherTimer).Stop();
         }
     }
