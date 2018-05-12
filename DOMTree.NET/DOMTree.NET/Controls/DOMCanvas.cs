@@ -8,6 +8,8 @@ using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Threading;
 using System.Windows.Input;
+using System.Windows.Shapes;
+using System.Windows.Media;
 
 namespace DOMTree.NET.Controls
 {
@@ -47,7 +49,6 @@ namespace DOMTree.NET.Controls
         private void AddChildren(VisualNode node)
         {
             this.Children.Add(node);
-            //System.Diagnostics.Debug.WriteLine("Level of " + node.Text + " " + node.Level);
             foreach(VisualNode child in node.Nodes)
             {
                 AddChildren(child);
@@ -72,7 +73,7 @@ namespace DOMTree.NET.Controls
             }
         }
 
-        public void AlternateSetupPositions(int Level)
+        public void SetupPositions(int Level)
         {
             var nodes = Nodes[Level];
 
@@ -112,23 +113,80 @@ namespace DOMTree.NET.Controls
             if(Level > 0)
             {
                 Level--;
-                AlternateSetupPositions(Level);
+                SetupPositions(Level);
             }
         }
 
         int MaxLevel = 0;
 
+        private void MakeConnections(VisualNode parentNode)
+        {
+            if(parentNode.Nodes.Count > 0)
+            {
+                if (parentNode.Nodes.Count == 1)
+                {
+                    Line line = new Line();
+                    line.Visibility = System.Windows.Visibility.Visible;
+                    line.StrokeThickness = 4;
+                    line.Stroke = System.Windows.Media.Brushes.White;
+
+                    line.X1 = line.X2 = parentNode.OutputPoint().X;
+                    line.Y1 = parentNode.OutputPoint().Y;
+                    line.Y2 = ((VisualNode)parentNode.Nodes[0]).InputPoint().Y;
+
+                    this.Children.Add(line);
+                    SetBottom(line, parentNode.OutputPoint().Y - (Math.Abs(line.Y2 - line.Y1)));
+                }
+                else // > 1
+                {
+                    foreach(VisualNode node in parentNode.Nodes)
+                    {
+                        Line line = new Line();
+                        line.Visibility = System.Windows.Visibility.Visible;
+                        line.StrokeThickness = 4;
+                        line.Stroke = System.Windows.Media.Brushes.White;
+
+                        line.X1 = node.InputPoint().X;
+                        line.Y1 = parentNode.OutputPoint().Y;
+
+                        line.X2 = parentNode.OutputPoint().X;
+                        line.Y2 = node.InputPoint().Y - 5; //-5 to hide a line under the Node
+
+                        this.Children.Add(line);
+                        SetZIndex(line, -1);
+                        SetBottom(line, parentNode.OutputPoint().Y - (Math.Abs(line.Y2 - line.Y1)));
+                    }
+                }
+                foreach (VisualNode node in parentNode.Nodes)
+                {
+                    MakeConnections(node);
+                }
+            }
+        }
+
         private void dispatcherTimer_Tick(object sender, EventArgs e)
         {
             AddChildren(RootNode);
-            //SetupPositions(RootNode);
-
             Nodes = new Dictionary<int, List<VisualNode>>();
 
             Prepare(RootNode, ref MaxLevel);
-            AlternateSetupPositions(MaxLevel);
+            SetupPositions(MaxLevel);
+            MakeConnections(RootNode);
 
-            //PrintLeft(RootNode);
+            //Line line = new Line();
+            //line.Visibility = System.Windows.Visibility.Visible;
+            //line.StrokeThickness = 4;
+            //line.Stroke = System.Windows.Media.Brushes.White;
+            //line.X1 = 10;
+            //line.Y1 = 10;
+
+            //line.X2 = 100;
+            //line.Y2 = 100;
+
+            //this.Children.Add(line);
+          //  SetBottom(line, 0);
+
+
             (sender as DispatcherTimer).Stop();
         }
     }
