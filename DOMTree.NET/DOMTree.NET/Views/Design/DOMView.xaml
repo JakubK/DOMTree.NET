@@ -8,9 +8,11 @@
       d:DesignHeight="300" d:DesignWidth="300"
       xmlns:local="clr-namespace:DOMTree.NET"
       Title="DesignView">
-        <Grid x:Name="Container" KeyDown="DOMCanvas_KeyDown" ClipToBounds="True" HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
-                <controls:DOMCanvas x:Name="canvas" Focusable="True" ClipToBounds="True" RootNode="{Binding NodePacker.VisualNode}" Background="Black" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Width="{Binding Path=ActualWidth,ElementName=Container}" Height="{Binding Path=ActualHeight,ElementName=Container}">
-                    
-                </controls:DOMCanvas>
-        </Grid>
+    <Grid x:Name="Container" KeyDown="DOMCanvas_KeyDown" ClipToBounds="True" HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
+        <controls:DOMCanvas x:Name="canvas" Focusable="True" ClipToBounds="True" RootNode="{Binding NodePacker.VisualNode}" Background="Black" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Width="{Binding Path=ActualWidth,ElementName=Container}" Height="{Binding Path=ActualHeight,ElementName=Container}">
+            <controls:DOMCanvas.LayoutTransform>
+                <ScaleTransform ScaleX="1" ScaleY="1" CenterX="1" CenterY="0" />
+            </controls:DOMCanvas.LayoutTransform>
+        </controls:DOMCanvas>
+    </Grid>
 </local:MvxWpfPage>

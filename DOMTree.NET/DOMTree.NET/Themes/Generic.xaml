@@ -44,18 +44,8 @@
                     <Border Background="Green"
                             BorderBrush="{TemplateBinding BorderBrush}"
                             BorderThickness="{TemplateBinding BorderThickness}">
-                            <TextBlock TextWrapping="Wrap" HorizontalAlignment="Center" VerticalAlignment="Center" Text="{TemplateBinding Text}"/>
+                        <TextBlock TextWrapping="Wrap" HorizontalAlignment="Center" VerticalAlignment="Center" Text="{TemplateBinding Text}"/>
                     </Border>
-                </ControlTemplate>
-            </Setter.Value>
-        </Setter>
-    </Style>
-
-    <Style TargetType="{x:Type local:Connection}">
-        <Setter Property="Template">
-            <Setter.Value>
-                <ControlTemplate TargetType="{x:Type local:Connection}">
-                    <Line StrokeThickness="2" Stroke="White" X1="{TemplateBinding X1}" Y1="{TemplateBinding Y1}" X2="{TemplateBinding X2}" Y2="{TemplateBinding Y2}"/>
                 </ControlTemplate>
             </Setter.Value>
         </Setter>
