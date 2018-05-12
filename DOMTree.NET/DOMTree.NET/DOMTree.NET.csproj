@@ -89,7 +89,6 @@
     </Compile>
     <Compile Include="Controls\DOMCanvas.cs" />
     <Compile Include="Controls\DOM\AttributeNode.cs" />
-    <Compile Include="Controls\DOM\Connection.cs" />
     <Compile Include="Controls\DOM\MarkupNode.cs" />
     <Compile Include="Controls\DOM\TextNode.cs" />
     <Compile Include="Controls\DOM\Base\VisualNode.cs" />
