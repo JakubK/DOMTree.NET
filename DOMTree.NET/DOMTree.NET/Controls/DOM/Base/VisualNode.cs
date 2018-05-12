@@ -14,16 +14,17 @@ namespace DOMTree.NET.Controls
         public Point InputPoint()
         {
             double left = double.IsNaN(DOMCanvas.GetLeft(this)) ? 0 : DOMCanvas.GetLeft(this);
-            double top = double.IsNaN(DOMCanvas.GetTop(this)) ? 0 : DOMCanvas.GetTop(this);
+            double bot = double.IsNaN(DOMCanvas.GetBottom(this)) ? 0 : DOMCanvas.GetBottom(this);
 
-            return new Point(left + (this.Width / 2), top);
+            return new Point(left + (this.Width / 2), bot + this.Height);
         }
+
         public Point OutputPoint()
         {
             double left = double.IsNaN(DOMCanvas.GetLeft(this)) ? 0 : DOMCanvas.GetLeft(this);
-            double top = double.IsNaN(DOMCanvas.GetTop(this)) ? 0 : DOMCanvas.GetTop(this);
+            double bot = double.IsNaN(DOMCanvas.GetBottom(this)) ? 0 : DOMCanvas.GetBottom(this);
 
-            return new Point(left + (this.Width / 2), top + this.Height);
+            return new Point(left + (this.Width / 2), bot);
         }
 
         public static readonly DependencyProperty TextProperty = DependencyProperty.Register("Text", typeof(string), typeof(VisualNode));
