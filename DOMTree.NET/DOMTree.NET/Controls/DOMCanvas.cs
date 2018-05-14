@@ -77,7 +77,7 @@ namespace DOMTree.NET.Controls
         {
             var nodes = Nodes[Level];
 
-            for(int i = 0;i < nodes.Count;i++)
+            for (int i = 0; i < nodes.Count; i++)
             {
                 if (Level == MaxLevel)
                 {
@@ -92,7 +92,7 @@ namespace DOMTree.NET.Controls
 
                     if (nodes[i].Nodes.Count > 0)
                     {
-                        DOMCanvas.SetBottom(nodes[i], DOMCanvas.GetBottom(Nodes[Level + 1].Aggregate((h1, h2) => h1.Height > h2.Height ? h1 : h2)) + Nodes[Level + 1].Aggregate((h1, h2) => h1.Height > h2.Height ? h1 : h2).Height + 10.0 + (MaxHeight - nodes[i].Height));                      
+                        DOMCanvas.SetBottom(nodes[i], DOMCanvas.GetBottom(Nodes[Level + 1].Aggregate((h1, h2) => h1.Height > h2.Height ? h1 : h2)) + Nodes[Level + 1].Aggregate((h1, h2) => h1.Height > h2.Height ? h1 : h2).Height + 10.0 + (MaxHeight - nodes[i].Height));
                     }
                     else
                     {
@@ -109,8 +109,8 @@ namespace DOMTree.NET.Controls
                     }
                 }
             }
-
-            if(Level > 0)
+            
+            if (Level > 0)
             {
                 Level--;
                 SetupPositions(Level);
@@ -121,7 +121,8 @@ namespace DOMTree.NET.Controls
 
         private void MakeConnections(VisualNode parentNode)
         {
-            if(parentNode.Nodes.Count > 0)
+            parentNode.Nodes = parentNode.Nodes.OrderBy(x => GetLeft((VisualNode)x)).ToList();
+            if (parentNode.Nodes.Count > 0)
             {
                 if (parentNode.Nodes.Count == 1)
                 {
@@ -136,30 +137,70 @@ namespace DOMTree.NET.Controls
 
                     this.Children.Add(line);
                     SetBottom(line, parentNode.OutputPoint().Y - (Math.Abs(line.Y2 - line.Y1)));
+
+                    MakeConnections((VisualNode)parentNode.Nodes[0]);
                 }
-                else // > 1
+                else
                 {
-                    foreach(VisualNode node in parentNode.Nodes)
+
+                    Line common = new Line();
+                    bool commonDrawn = false;
+                    foreach (VisualNode node in parentNode.Nodes) //TODO: Draw 1 common line and 1 line for parent and 1 for each node
                     {
-                        Line line = new Line();
-                        line.Visibility = System.Windows.Visibility.Visible;
-                        line.StrokeThickness = 4;
-                        line.Stroke = System.Windows.Media.Brushes.White;
+                        if (parentNode.Text == "fieldset")
+                        {
+                           
+                            System.Diagnostics.Debug.WriteLine(node.Text + " " + GetLeft(node));
+                        }
+                        if (!commonDrawn)
+                        {
+                            common.Visibility = Visibility.Visible;
+                            common.StrokeThickness = 4;
+                            common.Stroke = Brushes.White;
 
-                        line.X1 = node.InputPoint().X;
-                        line.Y1 = parentNode.OutputPoint().Y;
+                            common.Y1 = common.Y2 = (parentNode.OutputPoint().Y + node.InputPoint().Y) / 2;
+                            common.X1 = ((VisualNode)parentNode.Nodes[0]).InputPoint().X;
+                            common.X2 = ((VisualNode)parentNode.Nodes[parentNode.Nodes.Count - 1]).InputPoint().X;
 
-                        line.X2 = parentNode.OutputPoint().X;
-                        line.Y2 = node.InputPoint().Y - 5; //-5 to hide a line under the Node
+                            if (parentNode.Text == "fieldset")
+                            {
+                                System.Diagnostics.Debug.WriteLine("Common X1X2 " + common.X1 + ":" + common.X2);
+                                
+                            }
 
-                        this.Children.Add(line);
-                        SetZIndex(line, -1);
-                        SetBottom(line, parentNode.OutputPoint().Y - (Math.Abs(line.Y2 - line.Y1)));
+                            this.Children.Add(common);
+                            SetZIndex(common, -1);
+                            SetBottom(common, parentNode.OutputPoint().Y - ((parentNode.OutputPoint().Y - node.InputPoint().Y) / 2));
+
+                            commonDrawn = true;
+                        }
+                        Line parentLine = new Line();
+                        parentLine.Visibility = System.Windows.Visibility.Visible;
+                        parentLine.StrokeThickness = 4;
+                        parentLine.Stroke = System.Windows.Media.Brushes.White;
+
+                        parentLine.X1 = parentLine.X2 = parentNode.OutputPoint().X;
+                        parentLine.Y1 = parentNode.OutputPoint().Y;
+                        parentLine.Y2 = common.Y1;
+
+                        this.Children.Add(parentLine);
+                        SetZIndex(parentLine, -1);
+                        SetBottom(parentLine, parentNode.OutputPoint().Y - (Math.Abs(parentLine.Y2 - parentLine.Y1)));
+
+                        Line childLine = new Line();
+                        childLine.Visibility = System.Windows.Visibility.Visible;
+                        childLine.StrokeThickness = 4;
+                        childLine.Stroke = System.Windows.Media.Brushes.White;
+
+                        childLine.X1 = childLine.X2 = node.InputPoint().X;
+                        childLine.Y1 = node.InputPoint().Y;
+                        childLine.Y2 = common.Y2;
+                        this.Children.Add(childLine);
+                        SetZIndex(childLine, -1);
+                        SetBottom(childLine, node.InputPoint().Y);
+
+                        MakeConnections(node);
                     }
-                }
-                foreach (VisualNode node in parentNode.Nodes)
-                {
-                    MakeConnections(node);
                 }
             }
         }
@@ -172,20 +213,6 @@ namespace DOMTree.NET.Controls
             Prepare(RootNode, ref MaxLevel);
             SetupPositions(MaxLevel);
             MakeConnections(RootNode);
-
-            //Line line = new Line();
-            //line.Visibility = System.Windows.Visibility.Visible;
-            //line.StrokeThickness = 4;
-            //line.Stroke = System.Windows.Media.Brushes.White;
-            //line.X1 = 10;
-            //line.Y1 = 10;
-
-            //line.X2 = 100;
-            //line.Y2 = 100;
-
-            //this.Children.Add(line);
-          //  SetBottom(line, 0);
-
 
             (sender as DispatcherTimer).Stop();
         }
